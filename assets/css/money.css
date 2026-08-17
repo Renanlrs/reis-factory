@@ -1,0 +1,648 @@
+/* ══════════════════════════════════════════════════════════════
+   money.css — painel de taxas, simulador de alocação,
+   calculadora de imóvel e mitos de retorno
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─────────── painel: quanto rende hoje ─────────── */
+.rates__head { max-width: var(--maxw); margin: 0 auto clamp(44px, 6vw, 76px); }
+.rates__sub {
+  max-width: 60ch; margin: 26px 0 0;
+  color: rgba(255,255,255,.62); line-height: 1.55;
+}
+.rates__sub b { color: var(--paper); font-weight: 500; }
+
+.rates__grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line-l);
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.rate {
+  background: var(--ink);
+  padding: 30px 28px 34px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  transition: background .35s;
+}
+.rate:hover { background: #073332; }
+.rate__name {
+  margin: 0;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.rate__aa {
+  margin: 6px 0 0;
+  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  line-height: 1;
+  letter-spacing: -0.051em;
+  font-weight: 400;
+  color: var(--paper);
+}
+.rate__aa span {
+  font-size: 13px; letter-spacing: 0.04em; color: rgba(255,255,255,.4);
+  margin-left: 8px; font-family: var(--mono);
+}
+.rate__mes {
+  margin: 4px 0 0;
+  font-size: 19px; letter-spacing: -0.025em; color: var(--lime);
+  display: grid; gap: 2px;
+}
+.rate__mes span {
+  font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--mono); color: rgba(255,255,255,.38);
+}
+.rate__nota { margin: 12px 0 0; font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.45; }
+
+.rate--good .rate__aa { color: var(--lime); }
+.rate--bad .rate__aa { color: #FF6B5E; }
+.rate--bad .rate__mes { color: #FF6B5E; }
+
+.rates__src {
+  max-width: var(--maxw);
+  margin: 26px auto 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.33);
+}
+.rates__src b { color: rgba(255,255,255,.5); font-weight: 400; }
+
+/* ─────────── simulador de alocação ─────────── */
+.sim__head { max-width: 900px; margin: 0 auto clamp(44px, 6vw, 72px); text-align: center; }
+.sim__sub { color: var(--body); max-width: 62ch; margin: 26px auto 0; line-height: 1.55; }
+
+.sim__box {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 20px;
+  align-items: start;
+}
+.sim__fields {
+  background: var(--paper-2);
+  border-radius: var(--r);
+  padding: 40px;
+  display: grid;
+  gap: 30px;
+}
+.sim__note {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  display: grid;
+  gap: 12px;
+}
+.sim__note p { margin: 0; font-size: 13.5px; line-height: 1.6; color: rgba(5,36,36,.6); }
+.sim__note b { color: var(--ink); font-weight: 500; }
+
+.sim__out {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--r);
+  padding: 40px;
+}
+.sim__out-label {
+  margin: 0 0 22px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.sim__list { list-style: none; margin: 0 0 26px; padding: 0; }
+.sim__list li {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 0;
+  border-top: 1px solid var(--line-l);
+}
+.sim__list li:last-child { border-bottom: 1px solid var(--line-l); }
+.sim__rank {
+  font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,.32);
+}
+.sim__nome { display: grid; gap: 3px; font-size: 16.5px; letter-spacing: -0.02em; }
+.sim__nome em {
+  font-style: normal; font-size: 12.5px; color: rgba(255,255,255,.45); line-height: 1.4;
+}
+.sim__vals { text-align: right; display: grid; gap: 3px; }
+.sim__vals b { font-size: 19px; font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.sim__vals em {
+  font-style: normal; font-family: var(--mono); font-size: 11.5px; color: rgba(255,255,255,.42);
+}
+.sim__list li.is-top { background: rgba(171,255,2,.07); }
+.sim__list li.is-top .sim__vals b,
+.sim__list li.is-top .sim__rank { color: var(--lime); }
+.sim__delta {
+  margin: 0 0 26px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.72);
+}
+.sim__delta b { color: var(--paper); font-weight: 500; }
+.sim__out .btn--lime { --fg: #052424; }
+
+/* ─────────── calculadora do imóvel ─────────── */
+.imovel__head { max-width: var(--maxw); margin: 0 auto clamp(40px, 6vw, 68px); }
+.imovel__sub {
+  max-width: 66ch; margin: 26px 0 0;
+  color: rgba(255,255,255,.62); line-height: 1.6;
+}
+.imovel__sub b { color: var(--lime); font-weight: 500; }
+
+.imovel__box {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.imovel__fields {
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  padding: 34px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.field--dark .field__label { color: rgba(255,255,255,.45); }
+.field--dark .field__wrap {
+  background: rgba(255,255,255,.04);
+  border-color: var(--line-l);
+}
+.field--dark .field__wrap input { color: var(--paper); font-size: 19px; }
+.field--dark .field__prefix,
+.field--dark .field__suffix { color: rgba(255,255,255,.4); }
+.field__hint {
+  font-size: 11.5px; color: rgba(255,255,255,.32);
+  font-family: var(--mono); letter-spacing: .06em;
+}
+
+.imovel__out {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  padding: 34px;
+}
+.imovel__verdict {
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 26px;
+  background: rgba(255,255,255,.05);
+  border-left: 3px solid rgba(255,255,255,.2);
+}
+.imovel__verdict.is-good { background: rgba(171,255,2,.1);  border-left-color: var(--lime); }
+.imovel__verdict.is-mid  { background: rgba(255,196,0,.09); border-left-color: #FFC400; }
+.imovel__verdict.is-bad  { background: rgba(255,107,94,.09); border-left-color: #FF6B5E; }
+.imovel__verdict-tag {
+  display: inline-block;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 12px;
+}
+.is-good .imovel__verdict-tag { color: var(--lime); }
+.is-mid  .imovel__verdict-tag { color: #FFC400; }
+.is-bad  .imovel__verdict-tag { color: #FF6B5E; }
+.imovel__verdict-txt { margin: 0; font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.82); }
+.imovel__verdict-txt b { color: var(--paper); font-weight: 500; }
+
+.imovel__lines { list-style: none; margin: 0 0 22px; padding: 0; }
+.imovel__lines li {
+  display: flex; justify-content: space-between; gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line-l);
+  font-size: 14.5px;
+  color: rgba(255,255,255,.6);
+}
+.imovel__lines b {
+  color: var(--paper); font-weight: 500; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.imovel__lines li.is-ref { border-top-color: rgba(171,255,2,.3); }
+.imovel__lines li.is-ref span { color: var(--lime); }
+.imovel__lines li.is-ref b { color: var(--lime); }
+.imovel__foot { margin: 0; font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.6; }
+
+/* ─────────── mitos de retorno ─────────── */
+.mitos { overflow: hidden; }
+.mitos__head { max-width: var(--maxw); margin: 0 auto clamp(48px, 7vw, 90px); position: relative; }
+.mitos__grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  position: relative;
+}
+.mito {
+  background: var(--paper-2);
+  border-radius: var(--r);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), background .4s;
+}
+.mito:hover { transform: translateY(-6px); background: var(--paper-3); }
+.mito h3 {
+  margin: 0 0 14px;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+}
+.mito__body { margin: 0 0 26px; color: var(--body); font-size: 16px; line-height: 1.55; }
+.mito__body b { color: var(--ink); font-weight: 500; }
+.mito__body em { font-style: italic; }
+
+.mito__math {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 8px 20px;
+  margin-bottom: 22px;
+}
+.mito__line {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: 13.5px;
+  color: rgba(255,255,255,.6);
+}
+.mito__line:last-child { border-bottom: 0; }
+.mito__line b {
+  color: var(--paper); font-weight: 500; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.mito__line.is-good b { color: var(--lime); }
+.mito__line.is-bad b  { color: #FF6B5E; }
+.mito__line.is-total {
+  border-top: 1px solid rgba(255,255,255,.18);
+  margin-top: 4px;
+  font-size: 14.5px;
+}
+.mito__line.is-total span { color: var(--paper); }
+.mito__line.is-total b { color: #FF6B5E; font-size: 17px; }
+
+.mito__verdict {
+  margin: auto 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.loc__sub { max-width: 62ch; margin: 26px 0 0; color: var(--body); line-height: 1.6; font-size: 17px; }
+
+/* ─────────── sucessão: testamento, procuração, contratos ─────────── */
+.suc__head { max-width: var(--maxw); margin: 0 auto clamp(44px, 6vw, 72px); }
+.suc__sub {
+  max-width: 66ch; margin: 26px 0 0;
+  color: rgba(255,255,255,.62); line-height: 1.6;
+}
+.suc__sub b { color: var(--lime); font-weight: 500; }
+
+.suc__calc { max-width: var(--maxw); margin: 0 auto clamp(56px, 8vw, 96px); }
+.suc__fields { grid-template-columns: 1fr 1fr; margin-bottom: 20px; }
+
+.suc__cenarios { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cen {
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  padding: 32px;
+  background: rgba(255,255,255,.03);
+}
+.cen--good { border-color: rgba(171,255,2,.3); }
+.cen--bad { border-color: rgba(255,107,94,.3); }
+.cen__tag {
+  margin: 0 0 8px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--lime);
+}
+.cen--bad .cen__tag { color: #FF6B5E; }
+.cen__sub { margin: 0 0 20px; font-size: 14px; color: rgba(255,255,255,.5); line-height: 1.45; }
+.cen__prazo { margin: 16px 0 0; font-size: 14px; color: rgba(255,255,255,.55); }
+.cen__prazo b { color: var(--paper); font-weight: 500; }
+.cen .imovel__lines { margin: 0; }
+
+.suc__delta {
+  max-width: var(--maxw);
+  margin: 26px auto 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.72);
+}
+.suc__delta b { color: var(--paper); font-weight: 500; }
+
+.suc__grid {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(48px, 7vw, 80px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.suc__card {
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  padding: 36px 32px;
+  background: rgba(255,255,255,.03);
+  transition: background .35s;
+}
+.suc__card:hover { background: rgba(255,255,255,.06); }
+.suc__card .card__eyebrow { color: rgba(255,255,255,.4); }
+.suc__card h3 {
+  margin: 0 0 14px;
+  font-size: 1.406rem; line-height: 1.3; letter-spacing: -0.025em; font-weight: 400;
+}
+.suc__card p { margin: 0 0 22px; color: rgba(255,255,255,.62); font-size: 15.5px; line-height: 1.55; }
+.suc__card p b { color: var(--paper); font-weight: 500; }
+.ticks--light li { color: rgba(255,255,255,.75); font-size: 15px; }
+.ticks--light li::before { border-color: var(--lime); }
+
+.docs { max-width: var(--maxw); margin: 0 auto; }
+.docs__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 26px;
+}
+.docs__grid span {
+  padding: 16px 18px;
+  border: 1px solid var(--line-l);
+  border-radius: 8px;
+  font-size: 14.5px;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,.75);
+  transition: all .3s;
+}
+.docs__grid span:hover { border-color: var(--lime); color: var(--paper); background: rgba(171,255,2,.07); }
+.docs__legal {
+  margin: 0;
+  max-width: 92ch;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.45);
+}
+.docs__legal b { color: rgba(255,255,255,.7); font-weight: 500; }
+
+/* ─────────── locação: nota e alarmes de cerca ─────────── */
+.loc__nota {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  border-left: 3px solid var(--lime);
+  background: var(--soft);
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--body);
+  max-width: 52ch;
+}
+.loc__nota b { color: var(--ink); font-weight: 500; }
+
+/* o mock de cercas precisa de mais altura que os outros */
+.bene__viz--tall { aspect-ratio: 1 / 1; }
+
+.alarmes {
+  max-width: var(--maxw);
+  margin: clamp(32px, 5vw, 56px) auto 0;
+}
+.alarmes__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.alarmes__grid span {
+  display: grid;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--body);
+  transition: all .3s;
+}
+.alarmes__grid span:hover {
+  border-color: #FF6B5E;
+  background: rgba(255,107,94,.05);
+}
+.alarmes__grid b {
+  font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em;
+}
+.alarmes__foot {
+  margin: 0;
+  max-width: 88ch;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(5,36,36,.55);
+}
+
+/* ─────────── cobrança automática e juros de atraso ─────────── */
+.cob { overflow: hidden; }
+.cob__head { max-width: var(--maxw); margin: 0 auto clamp(44px, 6vw, 72px); position: relative; }
+.cob__sub { max-width: 62ch; margin: 26px 0 0; color: var(--body); line-height: 1.6; }
+.cob__sub b { color: var(--ink); font-weight: 500; }
+
+.cob__calc {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(48px, 7vw, 84px);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 20px;
+  align-items: start;
+  position: relative;
+}
+.cob__fields {
+  background: var(--paper-2);
+  border-radius: var(--r);
+  padding: 40px;
+  display: grid;
+  gap: 26px;
+}
+.cob__legal {
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(5,36,36,.6);
+}
+.cob__legal b { color: var(--ink); font-weight: 500; }
+
+.cob__out {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--r);
+  padding: 40px;
+}
+.cob__out-label {
+  margin: 0 0 12px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.cob__total {
+  margin: 0 0 26px;
+  font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+  line-height: 1;
+  letter-spacing: -0.051em;
+  font-weight: 400;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+.cob__lines { margin-bottom: 22px; }
+.cob__delta { margin: 0 0 24px; font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,.72); }
+.cob__delta b { color: var(--paper); font-weight: 500; }
+
+.cob__msg {
+  border: 1px solid rgba(171,255,2,.28);
+  background: rgba(171,255,2,.07);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+.cob__msg-h {
+  margin: 0 0 10px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--lime);
+}
+.cob__msg-txt { margin: 0; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.85); }
+.cob__msg-txt b { color: var(--paper); font-weight: 500; }
+
+/* régua e bom pagador */
+.cob__duo {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(48px, 7vw, 84px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  position: relative;
+}
+.regua {
+  background: var(--paper-2);
+  border-radius: var(--r);
+  padding: 40px;
+}
+.regua h3 {
+  margin: 0 0 24px;
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  line-height: 1.2; letter-spacing: -0.035em; font-weight: 400;
+}
+.regua__list { list-style: none; margin: 0 0 22px; padding: 0; counter-reset: r; }
+.regua__list li {
+  position: relative;
+  padding: 14px 0 14px 26px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 3px;
+}
+.regua__list li::before {
+  content: "";
+  position: absolute; left: 0; top: 21px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(5,36,36,.25);
+}
+.regua__list li.is-late::before { background: #FF6B5E; }
+.regua__list li.is-good::before { background: var(--lime-dim); }
+.regua__list b { font-size: 15px; font-weight: 500; letter-spacing: -0.02em; }
+.regua__list span { font-size: 14.5px; color: var(--body); line-height: 1.45; }
+.regua__foot { margin: 0; font-size: 14px; line-height: 1.6; color: rgba(5,36,36,.55); }
+.regua--good { background: var(--ink); color: var(--paper); }
+.regua--good .card__eyebrow { color: rgba(255,255,255,.45); }
+.regua--good .regua__list li { border-top-color: var(--line-l); }
+.regua--good .regua__list span { color: rgba(255,255,255,.62); }
+.regua--good .regua__list li.is-good::before { background: var(--lime); }
+.regua--good .regua__foot { color: rgba(255,255,255,.5); }
+
+/* alertas */
+.cob__alertas { max-width: var(--maxw); margin: 0 auto; position: relative; }
+.cob__alerta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.cob__alerta-grid span {
+  display: grid;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--body);
+  transition: all .3s;
+}
+.cob__alerta-grid span:hover { border-color: var(--ink); background: var(--paper-2); }
+.cob__alerta-grid b { font-size: 15px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; }
+
+/* ─────────── leilão ─────────── */
+.leilao__head { max-width: var(--maxw); margin: 0 auto clamp(40px, 6vw, 68px); }
+.leilao__sub { max-width: 64ch; margin: 26px 0 0; color: rgba(255,255,255,.62); line-height: 1.6; }
+.leilao__sub b { color: var(--lime); font-weight: 500; }
+.leilao__head em { font-style: normal; color: var(--lime); }
+
+.leilao__box {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(48px, 7vw, 84px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.leilao__fontes { max-width: var(--maxw); margin: 0 auto; }
+
+/* ─────────── mocks extras ─────────── */
+.mk__up--bad { color: #FF6B5E; }
+.mk--alerts { padding: 0; }
+.mk__al {
+  padding: 15px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: grid; gap: 5px;
+}
+.mk__al b { font-size: 13.5px; font-weight: 500; color: var(--lime); }
+.mk__al span { font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.45; }
+.mk__al em { font-style: normal; color: var(--paper); }
+
+.mk__sim { flex: 1; padding: 14px 18px; display: grid; align-content: center; gap: 10px; }
+.mk__simrow {
+  display: flex; justify-content: space-between; gap: 14px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  font-size: 12.5px;
+  color: rgba(255,255,255,.65);
+}
+.mk__simrow b { color: var(--paper); font-variant-numeric: tabular-nums; }
+.mk__simrow.is-top { background: rgba(171,255,2,.12); border-color: rgba(171,255,2,.3); }
+.mk__simrow.is-top b { color: var(--lime); }
+.mk__simrow.is-bad b { color: #FF6B5E; }
+
+/* ─────────── responsivo ─────────── */
+@media (max-width: 1080px) {
+  .rates__grid { grid-template-columns: repeat(2, 1fr); }
+  .sim__box, .imovel__box, .mitos__grid { grid-template-columns: 1fr; }
+  .suc__grid { grid-template-columns: 1fr; }
+  .cob__calc, .cob__duo, .leilao__box { grid-template-columns: 1fr; }
+  .cob__alerta-grid, .alarmes__grid { grid-template-columns: repeat(2, 1fr); }
+  .suc__cenarios { grid-template-columns: 1fr; }
+  .docs__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .rates__grid { grid-template-columns: 1fr; }
+  .suc__fields { grid-template-columns: 1fr; }
+  .leilao__fields { grid-template-columns: 1fr; }
+  .cob__alerta-grid, .alarmes__grid { grid-template-columns: 1fr; }
+  .cob__fields, .cob__out, .regua { padding: 24px; }
+  .docs__grid { grid-template-columns: 1fr; }
+  .cen, .suc__card { padding: 24px; }
+  .imovel__fields { grid-template-columns: 1fr; padding: 24px; }
+  .sim__fields, .sim__out, .imovel__out, .mito { padding: 24px; }
+  .sim__list li { grid-template-columns: 26px 1fr; }
+  .sim__vals { grid-column: 2; text-align: left; }
+}
