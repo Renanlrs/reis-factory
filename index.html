@@ -79,6 +79,8 @@
       <a class="btn btn--lime btn--lg" href="#simulador">Simular onde investir</a>
       <a class="btn btn--ghost-light btn--lg" href="#rende">Ver quanto rende hoje</a>
     </div>
+
+    <p class="hero__copom reveal" id="copom" hidden></p>
   </div>
 
   <div class="hero__ticker" aria-hidden="true">
@@ -97,9 +99,40 @@
       <span class="muted-light">também é uma decisão.</span>
     </h2>
     <p class="rates__sub reveal">
-      Os números de mercado de hoje, do jeito que importam: quanto <b>R$ 10.000</b> rendem
-      por mês em cada lugar onde seu dinheiro pode estar.
+      Os números de mercado de hoje, do jeito que importam: quanto <b>o seu dinheiro</b> renderia
+      por mês em cada lugar onde ele pode estar. Escreva o valor e o painel inteiro se refaz.
     </p>
+  </div>
+
+  <div class="parado reveal" id="parado">
+    <div class="parado__ask">
+      <label class="parado__label" for="p-valor">Quanto você tem parado na conta hoje?</label>
+      <div class="parado__field">
+        <span>R$</span>
+        <input id="p-valor" inputmode="numeric" value="10.000" aria-describedby="parado-nota" />
+      </div>
+      <p class="parado__nota" id="parado-nota">
+        Fica só no seu navegador. Comparamos com um CDB de <b><span id="p-cdi-pct">100</span>% do CDI</b>,
+        já descontando o imposto de renda da faixa de até 180 dias.
+      </p>
+    </div>
+
+    <div class="parado__out">
+      <p class="parado__eyebrow">Deixado na mesa</p>
+      <div class="parado__nums">
+        <div><b id="p-dia">—</b><span>por dia</span></div>
+        <div><b id="p-mes">—</b><span>por mês</span></div>
+        <div><b id="p-ano">—</b><span>em 12 meses</span></div>
+      </div>
+      <p class="parado__live">
+        Só hoje, até agora:
+        <b id="p-live">R$ 0,00</b>
+      </p>
+
+      <a class="btn btn--lime parado__cta" id="p-cta" href="#simulador">
+        Ver onde esse dinheiro renderia mais
+      </a>
+    </div>
   </div>
 
   <div class="rates__grid" id="rates-grid"></div>
@@ -1271,6 +1304,18 @@
     </div>
   </footer>
 </section>
+
+<!-- CTA que acompanha a leitura: a pagina e longa e o botao nao pode sumir -->
+<div class="dock" id="dock" hidden>
+  <p class="dock__txt">
+    <b id="dock-num">—</b>
+    <span id="dock-sub">é o que a conta parada deixa na mesa por ano</span>
+  </p>
+  <div class="dock__acts">
+    <a class="btn btn--ink" href="#simulador">Ver onde render mais</a>
+    <a class="btn btn--lime" href="#contato">Falar com a gente</a>
+  </div>
+</div>
 
 <script src="assets/js/taxas.js"></script>
 <script src="assets/js/hero.js" defer></script>

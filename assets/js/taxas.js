@@ -7,6 +7,8 @@ window.TAXAS = {
   atualizado: '17/08/2026',
 
   selic: 14.00,     // % a.a. — Copom de 05/08/2026
+  copomUltimo: '05/08/2026',
+  copomProximo: '2026-09-16',   // AAAA-MM-DD — vira contagem regressiva no hero
   cdi: 13.90,       // % a.a.
   ipca12: 4.44,     // % — IPCA acumulado em 12 meses
   poupanca: 6.17,   // % a.a. — 0,5%/mês enquanto a Selic > 8,5% (+ TR, aqui ignorada)

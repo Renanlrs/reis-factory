@@ -67,36 +67,127 @@
     ticker.innerHTML = bloco + bloco;
   }
 
+  /* ══════════════════ PRÓXIMO COPOM ══════════════════
+     A Selic vale até a próxima reunião — é urgência de calendário,
+     não promoção. Se a data passar, o aviso some sozinho. */
+  const elCopom = $('#copom');
+  if (elCopom && T.copomProximo) {
+    const alvo = new Date(T.copomProximo + 'T12:00:00');
+    const hoje = new Date();
+    const dias = Math.ceil((alvo - hoje) / 86400000);
+    if (dias >= 0) {
+      const quando = alvo.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+      elCopom.innerHTML = dias === 0
+        ? `Selic <b>${pct(T.selic)}</b> — o Copom se reúne <b>hoje</b>`
+        : `Selic <b>${pct(T.selic)}</b> até ${quando} — <b>${dias} dia${dias > 1 ? 's' : ''}</b> até a próxima decisão do Copom`;
+      elCopom.hidden = false;
+    }
+  }
+
   /* ══════════════════ PAINEL: QUANTO RENDE HOJE ══════════════════ */
   const grid = $('#rates-grid');
-  if (grid) {
-    const BASE = 10000;
-    const linhas = [
-      { nome: 'Conta corrente', aa: 0, nota: 'O lugar mais caro para guardar dinheiro', tom: 'bad' },
-      { nome: 'Poupança', aa: T.poupanca, nota: 'Travada em 0,5% ao mês, isenta de IR' },
-      { nome: 'Aluguel de imóvel', aa: T.aluguelYield, nota: 'Média nacional bruta, antes de IPTU e vacância' },
-      { nome: 'Tesouro Selic', aa: T.selic, nota: 'Liquidez diária, IR regressivo', },
-      { nome: `CDB ${T.cdbPctCdi}% do CDI`, aa: T.cdi * T.cdbPctCdi / 100, nota: 'Com FGC até R$ 250 mil, IR regressivo', tom: 'good' },
-      { nome: `LCI/LCA ${T.lciPctCdi}% do CDI`, aa: T.cdi * T.lciPctCdi / 100, nota: 'Isenta de IR — rende menos e entrega mais', tom: 'good' },
-    ];
+  const pInput = $('#p-valor');
+  /* o painel nasce com R$ 10 mil e passa a usar o número que a pessoa digita */
+  let BASE = 10000;
 
-    grid.innerHTML = linhas.map(l => {
+  const linhasPainel = () => ([
+    { nome: 'Conta corrente', aa: 0, nota: 'O lugar mais caro para guardar dinheiro', tom: 'bad' },
+    { nome: 'Poupança', aa: T.poupanca, nota: 'Travada em 0,5% ao mês, isenta de IR' },
+    { nome: 'Aluguel de imóvel', aa: T.aluguelYield, nota: 'Média nacional bruta, antes de IPTU e vacância' },
+    { nome: 'Tesouro Selic', aa: T.selic, nota: 'Liquidez diária, IR regressivo' },
+    { nome: `CDB ${T.cdbPctCdi}% do CDI`, aa: T.cdi * T.cdbPctCdi / 100, nota: 'Com FGC até R$ 250 mil, IR regressivo', tom: 'good' },
+    { nome: `LCI/LCA ${T.lciPctCdi}% do CDI`, aa: T.cdi * T.lciPctCdi / 100, nota: 'Isenta de IR — rende menos e entrega mais', tom: 'good' },
+  ]);
+
+  function pintarPainel() {
+    if (!grid) return;
+    const ref = BASE >= 1000
+      ? 'R$ ' + Math.round(BASE / 1000).toLocaleString('pt-BR') + ' mil'
+      : brl(BASE);
+    grid.innerHTML = linhasPainel().map(l => {
       const mes = BASE * aoMes(l.aa);
       return `
       <article class="rate ${l.tom ? 'rate--' + l.tom : ''}">
         <p class="rate__name">${l.nome}</p>
         <p class="rate__aa">${l.aa ? pct(l.aa) : '0%'}<span>a.a.</span></p>
-        <p class="rate__mes">${mes ? brl2(mes) : 'R$ 0,00'}<span>por mês, com R$ 10 mil</span></p>
+        <p class="rate__mes">${mes ? brl2(mes) : 'R$ 0,00'}<span>por mês, com ${ref}</span></p>
         <p class="rate__nota">${l.nota}</p>
       </article>`;
     }).join('');
+  }
 
+  if (grid) {
+    pintarPainel();
     const src = $('#rates-src');
     if (src) {
       src.innerHTML = `Atualizado em ${T.atualizado} · ` +
         (T.fontes || []).map(([k, v]) => `<b>${k}:</b> ${v}`).join(' · ') +
         ` · IPCA de ${pct(T.ipca12)} em 12 meses é a régua: render menos que isso é perder poder de compra.`;
     }
+  }
+
+  /* ══════════════════ O RELÓGIO DO DINHEIRO PARADO ══════════════════
+     Número de exemplo não dói; o número da própria conta dói. A conta é
+     a diferença entre a conta corrente (zero) e um CDB de 100% do CDI
+     já com o IR da faixa mais pesada — o cenário conservador. */
+  const IR_CURTO = 0.225;
+  const pDia = $('#p-dia'), pMes = $('#p-mes'), pAno = $('#p-ano'), pLive = $('#p-live');
+  const dockNum = $('#dock-num');
+  const pCdiPct = $('#p-cdi-pct');
+  if (pCdiPct) pCdiPct.textContent = String(T.cdbPctCdi);
+  let porSegundo = 0;
+
+  function parado() {
+    const valor = Math.max(0, num(pInput ? pInput.value : 0));
+    const aa = T.cdi * T.cdbPctCdi / 100;
+    const liq = 1 - IR_CURTO;
+
+    const ano = valor * (aa / 100) * liq;
+    const mes = valor * aoMes(aa) * liq;
+    const dia = valor * (Math.pow(1 + aa / 100, 1 / 365) - 1) * liq;
+    porSegundo = dia / 86400;
+
+    if (pDia) pDia.textContent = brl2(dia);
+    if (pMes) pMes.textContent = brl2(mes);
+    if (pAno) pAno.textContent = brl(ano);
+    if (dockNum) dockNum.textContent = brl(ano);
+    const dockSub = $('#dock-sub');
+    if (dockSub) dockSub.textContent = `é o que ${brl(valor || 10000)} parados deixam na mesa em 12 meses`;
+
+    BASE = valor > 0 ? valor : 10000;
+    pintarPainel();
+    tique();
+  }
+
+  /* "hoje, até agora": o dia já correu, o dinheiro parado já custou. */
+  function tique() {
+    if (!pLive) return;
+    const agora = new Date();
+    const inicioDoDia = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+    pLive.textContent = brl2(porSegundo * ((agora - inicioDoDia) / 1000));
+  }
+
+  if (pInput) {
+    pInput.addEventListener('input', parado);
+    pInput.addEventListener('blur', () => { pInput.value = num(pInput.value).toLocaleString('pt-BR'); });
+    parado();
+    if (!reduced) setInterval(tique, 1000);
+  }
+
+  /* ══════════════════ CTA QUE ACOMPANHA A LEITURA ══════════════════
+     A página é longa: sem isto o botão só existe nas duas pontas. */
+  const dock = $('#dock');
+  if (dock) {
+    const contato = $('#contato');
+    const atualizarDock = () => {
+      const passouDoHero = window.scrollY > window.innerHeight * 1.2;
+      const chegouNoFim = contato && contato.getBoundingClientRect().top < window.innerHeight;
+      const mostrar = passouDoHero && !chegouNoFim;
+      if (mostrar && dock.hidden) dock.hidden = false;
+      dock.classList.toggle('is-on', mostrar);
+    };
+    atualizarDock();
+    window.addEventListener('scroll', atualizarDock, { passive: true });
   }
 
   /* ══════════════════ SIMULADOR: ONDE INVESTIR ══════════════════ */

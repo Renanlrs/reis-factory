@@ -646,3 +646,144 @@
   .sim__list li { grid-template-columns: 26px 1fr; }
   .sim__vals { grid-column: 2; text-align: left; }
 }
+
+/* ══════════════════ RELÓGIO DO DINHEIRO PARADO ══════════════════
+   O painel abaixo é genérico (R$ 10 mil). Aqui a conta passa a ser
+   a do visitante — número próprio dói mais que número de exemplo. */
+.parado {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(20px, 4vw, 56px);
+  align-items: center;
+  margin: 0 auto clamp(28px, 4vw, 48px);
+  max-width: var(--maxw);
+  padding: clamp(24px, 3.4vw, 40px);
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.parado__label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-l);
+  margin-bottom: 14px;
+}
+
+.parado__field {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  border-bottom: 2px solid var(--lime);
+  padding-bottom: 8px;
+}
+
+.parado__field > span {
+  font-family: var(--mono);
+  font-size: clamp(18px, 2vw, 24px);
+  color: var(--lime);
+}
+
+.parado__field input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: clamp(30px, 4.4vw, 52px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.parado__field input:focus { outline: none; }
+
+.parado__nota {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted-l);
+}
+
+.parado__nota b { color: rgba(255, 255, 255, 0.85); font-weight: 500; }
+
+.parado__eyebrow {
+  margin: 0 0 18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.parado__nums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.parado__nums > div {
+  border-left: 1px solid var(--line-l);
+  padding-left: 16px;
+}
+
+.parado__nums b {
+  display: block;
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #fff;
+  /* tabular evita o número "dançar" enquanto o contador roda */
+  font-variant-numeric: tabular-nums;
+}
+
+.parado__nums span {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-l);
+}
+
+.parado__live {
+  margin: 22px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-l);
+  font-size: 15px;
+  color: var(--muted-l);
+}
+
+.parado__live b {
+  color: var(--lime);
+  font-weight: 400;
+  font-size: clamp(18px, 2.2vw, 24px);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 860px) {
+  .parado { grid-template-columns: minmax(0, 1fr); }
+  .parado__nums { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+
+.parado__cta { margin-top: 18px; }
+
+/* No celular o rótulo é longo demais para uma linha: deixa quebrar e ocupar
+   a largura toda em vez de vazar do card. */
+@media (max-width: 520px) {
+  .parado__cta {
+    width: 100%;
+    padding: 16px 18px;
+    letter-spacing: 0.12em;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.4;
+  }
+}
