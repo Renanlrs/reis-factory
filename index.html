@@ -398,6 +398,33 @@
     </div>
   </div>
 
+  <div class="cal reveal" id="calendario">
+    <div class="cal__head">
+      <div>
+        <p class="eyebrow eyebrow--light">Calendário da região</p>
+        <h3 class="cal__h">Os próximos leilões perto de você</h3>
+      </div>
+      <div class="cal__filtros">
+        <div class="cal__grupo" id="cal-modo">
+          <button type="button" class="chip is-on" data-modo="todos">Todos</button>
+          <button type="button" class="chip" data-modo="online">Online</button>
+          <button type="button" class="chip" data-modo="presencial">Presencial</button>
+          <button type="button" class="chip" data-modo="hibrido">Híbrido</button>
+        </div>
+        <div class="cal__grupo" id="cal-tipo">
+          <button type="button" class="chip is-on" data-tipo="todos">Tudo</button>
+          <button type="button" class="chip" data-tipo="veiculos">Veículos</button>
+          <button type="button" class="chip" data-tipo="imoveis">Imóveis</button>
+          <button type="button" class="chip" data-tipo="diversos">Diversos</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal__lista" id="cal-lista"></div>
+
+    <p class="cal__src" id="cal-src"></p>
+  </div>
+
   <div class="alerta reveal" id="alerta-leilao">
     <div class="alerta__txt">
       <p class="eyebrow eyebrow--light">Alerta de novo leilão</p>
@@ -440,22 +467,13 @@
   </div>
 
   <div class="leilao__fontes reveal">
-    <p class="eyebrow eyebrow--light">O radar de editais</p>
-    <div class="docs__grid">
-      <span>Pátios de Detran e prefeituras</span>
-      <span>Seguradoras (sinistro e recuperáveis)</span>
-      <span>Bancos e financeiras (retomados)</span>
-      <span>Leilão judicial</span>
-      <span>Frotas de locadoras e empresas</span>
-      <span>Órgãos públicos e autarquias</span>
-      <span>Leiloeiros oficiais da região</span>
-      <span>Receita Federal (mercadoria e veículo)</span>
-    </div>
+    <p class="eyebrow eyebrow--light">Onde os leilões da região nascem</p>
+    <div class="fontes__grid" id="fontes-grid"></div>
     <p class="docs__legal">
-      O app monitora essas fontes, guarda o edital, o lote e a data no seu calendário e te avisa
-      com antecedência — com o teto de lance que <b>você</b> definiu para não passar do ponto no
-      calor do leilão. Depois da arrematação, o veículo já entra na frota com checklist,
-      documentos e contrato de locação prontos.
+      O calendário acima é curado à mão e conferido na fonte — por isso a data de atualização
+      aparece nele. Estes links levam à agenda ao vivo de cada casa, para você conferir antes de
+      dar qualquer lance. No app, o monitoramento é automático: o edital cai no seu calendário
+      com a data da praça, o prazo de visitação e o teto de lance que <b>você</b> definiu.
     </p>
   </div>
 </section>
@@ -1373,6 +1391,7 @@
 </div>
 
 <script src="assets/js/taxas.js"></script>
+<script src="assets/js/leiloes.js"></script>
 <script src="assets/js/hero.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>

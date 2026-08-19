@@ -573,6 +573,168 @@
     $('#form-ok').hidden = false;
   });
 
+  /* ══════════════════ CALENDÁRIO DE LEILÕES DA REGIÃO ══════════════════
+     Os dados vivem em assets/js/leiloes.js. Aqui só entra o que ainda não
+     aconteceu, ordenado pelo mais próximo. */
+  const L = window.LEILOES || {};
+  const calLista = $('#cal-lista');
+
+  const MODALIDADE = {
+    online: 'Online',
+    presencial: 'Presencial',
+    hibrido: 'Online e presencial',
+  };
+  const TIPO = { veiculos: 'Veículos', imoveis: 'Imóveis', diversos: 'Diversos' };
+
+  let filtroModo = 'todos', filtroTipo = 'todos';
+
+  const diasAte = d => Math.ceil((d - new Date()) / 86400000);
+
+  /* Arquivo de agenda: é o alerta que funciona sem servidor nenhum — quem
+     avisa é o celular da pessoa, com lembrete na véspera. */
+  function baixarIcs(ev) {
+    const inicio = new Date(ev.data);
+    const fim = new Date(inicio.getTime() + 2 * 3600 * 1000);
+    const z = n => String(n).padStart(2, '0');
+    /* o formato pede UTC com Z no fim */
+    const fmt = d => `${d.getUTCFullYear()}${z(d.getUTCMonth() + 1)}${z(d.getUTCDate())}T${z(d.getUTCHours())}${z(d.getUTCMinutes())}00Z`;
+    const esc = t => String(t).replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
+
+    const linhas = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Reis Factory//Calendario de leiloes//PT-BR',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      `UID:${fmt(inicio)}-${Math.abs(hashLeve(ev.titulo + ev.comitente))}@reisfactory`,
+      `DTSTAMP:${fmt(new Date(inicio.getTime() - 86400000))}`,
+      `DTSTART:${fmt(inicio)}`,
+      `DTEND:${fmt(fim)}`,
+      `SUMMARY:${esc('Leilão: ' + ev.titulo)}`,
+      `LOCATION:${esc(ev.cidade + (ev.modalidade === 'online' ? ' (online)' : ''))}`,
+      `DESCRIPTION:${esc(`${ev.comitente}\n${ev.casa}\n${ev.obs || ''}\n${ev.link}\n\nLembrete do Reis Factory.`)}`,
+      `URL:${ev.link}`,
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:DISPLAY',
+      `DESCRIPTION:${esc('Amanhã tem leilão: ' + ev.titulo)}`,
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ];
+
+    const blob = new Blob([linhas.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `leilao-${ev.cidade.toLowerCase().replace(/[^a-z]+/g, '-')}-${ev.data.slice(0, 10)}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  /* id estável para o evento não duplicar na agenda a cada download */
+  function hashLeve(txt) {
+    let h = 0;
+    for (let i = 0; i < txt.length; i++) h = (h * 31 + txt.charCodeAt(i)) | 0;
+    return h;
+  }
+
+  function pintarCalendario() {
+    if (!calLista) return;
+    const agora = new Date();
+    const eventos = (L.eventos || [])
+      .map(e => ({ ...e, quando: new Date(e.data) }))
+      .filter(e => e.quando >= agora)
+      .filter(e => filtroModo === 'todos' || e.modalidade === filtroModo)
+      .filter(e => filtroTipo === 'todos' || e.tipo === filtroTipo)
+      .sort((a, b) => a.quando - b.quando);
+
+    if (!eventos.length) {
+      calLista.innerHTML = `
+        <p class="cal__vazio">
+          Nenhum leilão com esse filtro na agenda de agora. Tire o filtro ou peça o alerta aqui
+          embaixo — a gente avisa quando o próximo edital sair.
+        </p>`;
+      return;
+    }
+
+    calLista.innerHTML = eventos.map((e, i) => {
+      const dias = diasAte(e.quando);
+      const dia = e.quando.toLocaleDateString('pt-BR', { day: '2-digit' });
+      const mes = e.quando.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+      const hora = e.quando.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const abre = e.abertura
+        ? `Lances abrem ${new Date(e.abertura).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}`
+        : '';
+      const urgente = dias <= 7;
+
+      return `
+      <article class="cal__card${urgente ? ' is-urgente' : ''}">
+        <div class="cal__data">
+          <b>${dia}</b><span>${mes}</span>
+        </div>
+        <div class="cal__corpo">
+          <p class="cal__tags">
+            <span class="cal__tag">${MODALIDADE[e.modalidade] || e.modalidade}</span>
+            <span class="cal__tag">${TIPO[e.tipo] || e.tipo}</span>
+            <span class="cal__tag cal__tag--cidade">${e.cidade}</span>
+          </p>
+          <h4 class="cal__titulo">${e.titulo}</h4>
+          <p class="cal__quem">${e.comitente} · ${e.casa}</p>
+          ${e.obs ? `<p class="cal__obs">${e.obs}</p>` : ''}
+        </div>
+        <div class="cal__acoes">
+          <p class="cal__falta">${dias === 0 ? 'é hoje' : dias === 1 ? 'é amanhã' : `faltam ${dias} dias`}</p>
+          <p class="cal__hora">${hora}${abre ? ` · ${abre}` : ''}</p>
+          <a class="btn btn--lime btn--block" href="${e.link}" target="_blank" rel="noopener">Ver o edital</a>
+          <button type="button" class="btn btn--ghost-light btn--block cal__ics" data-ev="${i}">
+            Colocar na agenda
+          </button>
+        </div>
+      </article>`;
+    }).join('');
+
+    /* o botão precisa do evento já filtrado e ordenado, não do índice original */
+    $$('.cal__ics', calLista).forEach(b => {
+      b.addEventListener('click', () => baixarIcs(eventos[Number(b.dataset.ev)]));
+    });
+  }
+
+  if (calLista) {
+    $$('#cal-modo .chip').forEach(c => c.addEventListener('click', () => {
+      $$('#cal-modo .chip').forEach(x => x.classList.remove('is-on'));
+      c.classList.add('is-on');
+      filtroModo = c.dataset.modo;
+      pintarCalendario();
+    }));
+    $$('#cal-tipo .chip').forEach(c => c.addEventListener('click', () => {
+      $$('#cal-tipo .chip').forEach(x => x.classList.remove('is-on'));
+      c.classList.add('is-on');
+      filtroTipo = c.dataset.tipo;
+      pintarCalendario();
+    }));
+    pintarCalendario();
+
+    const src = $('#cal-src');
+    if (src) {
+      src.innerHTML = `Agenda conferida na fonte em <b>${L.atualizado}</b> · ${L.regiao || ''} ·
+        leilão muda de data e de regra: confirme sempre no edital antes de dar lance.`;
+    }
+  }
+
+  /* as fontes ao vivo, que é onde a agenda de amanhã aparece primeiro */
+  const fontesGrid = $('#fontes-grid');
+  if (fontesGrid && (L.fontes || []).length) {
+    fontesGrid.innerHTML = L.fontes.map(f => `
+      <a class="fonte" href="${f.link}" target="_blank" rel="noopener">
+        <b>${f.nome}</b>
+        <span>${f.oque}</span>
+        ${f.nota ? `<i>${f.nota}</i>` : ''}
+      </a>`).join('');
+  }
+
   /* ══════════════════ ALERTA DE NOVO LEILÃO ══════════════════
      Sem backend: os filtros viram a mensagem que a pessoa manda no WhatsApp. */
   const chips = $$('#alerta-chips .chip');
