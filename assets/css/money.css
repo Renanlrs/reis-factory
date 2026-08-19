@@ -787,3 +787,230 @@
     line-height: 1.4;
   }
 }
+
+/* ══════════════════ EMPRESTAR DINHEIRO ══════════════════ */
+.emp { position: relative; }
+.emp__head { max-width: var(--maxw); margin: 0 auto clamp(44px, 6vw, 72px); position: relative; }
+.emp__sub { max-width: 62ch; margin: 26px 0 0; color: var(--body); line-height: 1.6; }
+.emp__sub b { color: var(--ink); font-weight: 500; }
+
+.emp__calc,
+.prec__calc {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(48px, 7vw, 84px);
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 20px;
+  align-items: start;
+  position: relative;
+}
+
+.emp__fields {
+  background: var(--paper-2);
+  border-radius: var(--r);
+  padding: clamp(24px, 3vw, 40px);
+  display: grid;
+  gap: 22px;
+}
+
+.emp__legal {
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(5, 36, 36, .6);
+}
+.emp__legal b { color: var(--ink); font-weight: 500; }
+
+.emp__out {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--r);
+  padding: clamp(24px, 3vw, 40px);
+}
+
+/* o veredito é a primeira coisa que se lê: cor diz o resultado antes do texto */
+.emp__veredito,
+.prec__veredito {
+  margin: 0 0 26px;
+  padding: 14px 18px;
+  border-left: 3px solid rgba(255, 255, 255, .2);
+  border-radius: 0 10px 10px 0;
+  background: rgba(255, 255, 255, .05);
+  font-size: clamp(15px, 1.7vw, 18px);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, .85);
+}
+.emp__veredito.is-good, .prec__veredito.is-good {
+  background: rgba(171, 255, 2, .1); border-left-color: var(--lime); color: var(--lime);
+}
+.emp__veredito.is-warn, .prec__veredito.is-warn {
+  background: rgba(255, 193, 7, .1); border-left-color: #FFC107; color: #FFD54F;
+}
+.emp__veredito.is-bad, .prec__veredito.is-bad {
+  background: rgba(255, 107, 94, .1); border-left-color: #FF6B5E; color: #FF8F85;
+}
+
+.emp__big,
+.prec__big {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+.emp__big > div, .prec__big > div { min-width: 0; }
+.emp__big span, .prec__big span {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .5);
+  margin-bottom: 6px;
+}
+.emp__big b, .prec__big b {
+  display: block;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 400;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+.emp__risco {
+  border-top: 1px solid var(--line-l);
+  padding-top: 22px;
+  margin-bottom: 24px;
+}
+.emp__risco-h {
+  margin: 0 0 8px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--lime);
+}
+.emp__risco-txt { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .72); }
+.emp__risco-txt b { color: var(--paper); font-weight: 500; }
+
+.emp__acts, .prec__acts { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.emp__cards {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  position: relative;
+}
+
+/* ══════════════════ PRECIFICAR O ALUGUEL ══════════════════ */
+.prec__head { max-width: var(--maxw); margin: 0 auto clamp(44px, 6vw, 72px); }
+.prec__sub { max-width: 62ch; margin: 26px 0 0; color: var(--muted-l); line-height: 1.6; }
+.prec__sub b { color: rgba(255, 255, 255, .88); font-weight: 500; }
+
+/* seção escura: o painel de campos inverte para não sumir no fundo */
+.prec__fields {
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  padding: clamp(24px, 3vw, 40px);
+  display: grid;
+  gap: 22px;
+}
+.prec__fields .field__label { color: rgba(255, 255, 255, .55); }
+.prec__fields .field__wrap {
+  background: rgba(0, 0, 0, .25);
+  border-color: var(--line-l);
+  color: var(--paper);
+}
+.prec__fields input,
+.prec__fields select { color: var(--paper); }
+.prec__fields .field__prefix,
+.prec__fields .field__suffix { color: rgba(255, 255, 255, .5); }
+
+.prec__legal {
+  margin: 0;
+  border-top: 1px solid var(--line-l);
+  padding-top: 20px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .5);
+}
+
+.prec__out {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--r);
+  padding: clamp(24px, 3vw, 40px);
+}
+.prec__out .prec__veredito {
+  background: var(--soft);
+  border-left-color: var(--line);
+  color: var(--ink);
+}
+.prec__out .prec__veredito.is-good { background: rgba(110, 155, 0, .12); border-left-color: var(--lime-dim); color: #3E5A00; }
+.prec__out .prec__veredito.is-warn { background: rgba(255, 152, 0, .12); border-left-color: #FF9800; color: #8A4B00; }
+.prec__out .prec__veredito.is-bad  { background: rgba(255, 107, 94, .12); border-left-color: #FF6B5E; color: #B3271A; }
+.prec__out .prec__big b { color: var(--ink); }
+.prec__out .prec__big span { color: var(--muted); }
+.prec__lines li { border-top-color: var(--line); color: var(--body); }
+.prec__lines b { color: var(--ink); }
+.prec__nota { margin: 0 0 24px; font-size: 15px; line-height: 1.6; color: var(--body); }
+.prec__nota b { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .emp__calc, .prec__calc { grid-template-columns: minmax(0, 1fr); }
+  .emp__cards { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .emp__big, .prec__big { grid-template-columns: minmax(0, 1fr); }
+  .emp__acts .btn, .prec__acts .btn { width: 100%; }
+}
+
+/* ══════════════════ ALERTA DE NOVO LEILÃO ══════════════════ */
+.alerta {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(36px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(20px, 4vw, 48px);
+  align-items: center;
+  padding: clamp(24px, 3.4vw, 40px);
+  border: 1px solid var(--line-l);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, .04);
+}
+.alerta__h {
+  margin: 14px 0 0;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--paper);
+}
+.alerta__p { margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted-l); }
+.alerta__form { display: grid; gap: 16px; }
+.alerta__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* chip ligado = filtro que entra na mensagem do WhatsApp */
+.chip {
+  border: 1px solid var(--line-l);
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: transparent;
+  color: rgba(255, 255, 255, .7);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.chip:hover { border-color: rgba(255, 255, 255, .5); color: var(--paper); }
+.chip.is-on { background: var(--lime); border-color: var(--lime); color: #052424; }
+
+.alerta__nota { margin: 0; font-size: 13px; line-height: 1.6; color: rgba(255, 255, 255, .45); }
+
+@media (max-width: 900px) {
+  .alerta { grid-template-columns: minmax(0, 1fr); }
+}

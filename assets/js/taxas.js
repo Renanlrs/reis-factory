@@ -26,6 +26,24 @@ window.TAXAS = {
   imovelCustoAdm: 10,      // % do aluguel (imobiliária)
   imovelVacancia: 8.3,     // % (≈ 1 mês vago por ano)
 
+  /* ── EMPRÉSTIMO: o teto que a lei impõe ──────────────────────────
+     Art. 406 do Código Civil (redação da Lei 14.905/2024): a taxa legal
+     é a Selic MENOS o IPCA — e, se der negativo, vale zero.
+     Lei da Usura (Decreto 22.626/1933, art. 1º): é vedado estipular juros
+     acima do DOBRO da taxa legal. A Lei 14.905/2024 tirou desse teto as
+     obrigações entre pessoas jurídicas, as representadas por títulos de
+     crédito/valores mobiliários e as do mercado financeiro e de capitais.
+     Na prática: se tem pessoa física na operação, o teto vale. */
+  usuraDobro: 2,           // multiplicador da taxa legal (art. 1º da Lei da Usura)
+  agiotagemLei: 'Lei 1.521/51, art. 4º',
+
+  /* ── ALUGUEL DE VEÍCULO: o que come a diária ── */
+  carroDepreciacao: 12,    // % a.a. do valor do veículo (média de mercado)
+  carroManutencao: 4,      // % a.a. do valor — revisão, pneu, freio
+  carroSeguro: 6,          // % a.a. do valor — seguro + rastreador
+  carroIpva: 4,            // % a.a. do valor — IPVA + licenciamento
+  carroOciosidade: 25,     // % dos dias do mês sem locar (média conservadora)
+
   /* ── cobrança e atraso (padrão do mercado brasileiro) ── */
   multaAtrasoPct: 2,     // % de multa sobre a parcela (limite do CDC para consumidor)
   jurosMoraMes: 1,       // % ao mês de juros de mora, cobrados por dia (pro rata die)
@@ -46,6 +64,7 @@ window.TAXAS = {
   multaAtraso: 10,      // % do ITCMD se o inventário não abrir no prazo (regra de vários estados)
 
   fontes: [
+    ['Taxa legal e teto de juros', 'Art. 406 do Código Civil (Lei 14.905/2024) e art. 1º do Decreto 22.626/1933'],
     ['Selic e CDI', 'Banco Central / Copom de 05/08/2026'],
     ['IPCA 12 meses', 'IBGE'],
     ['Yield de aluguel', 'Índice FipeZap de locação residencial, julho/2026'],

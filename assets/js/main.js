@@ -55,8 +55,9 @@
       `Selic ${pct(T.selic)} a.a.`,
       `CDI ${pct(T.cdi)} a.a.`,
       `IPCA ${pct(T.ipca12)} em 12 meses`,
-      `Poupança ${pct(T.poupanca)} a.a.`,
-      `Aluguel residencial ${pct(T.aluguelYield)} a.a.`,
+      `Teto legal de juros ${pct(Math.max(0, T.selic - T.ipca12) * (T.usuraDobro || 2))} a.a.`,
+      'Contrato de mútuo pronto para assinar',
+      'Diária mínima do veículo calculada',
       'Dinheiro parado rende zero',
       'Cobrança automática no WhatsApp',
       'Juros de atraso calculados sozinhos',
@@ -190,134 +191,181 @@
     window.addEventListener('scroll', atualizarDock, { passive: true });
   }
 
-  /* ══════════════════ SIMULADOR: ONDE INVESTIR ══════════════════ */
-  const sVal = $('#s-valor'), sValR = $('#s-valor-r');
-  const sMes = $('#s-meses'), sMesR = $('#s-meses-r');
-  const sList = $('#sim-list');
+  /* ══════════════════ EMPRESTAR DINHEIRO ══════════════════
+     Três contas na mesma tela: quanto volta, até onde a lei deixa cobrar e
+     quanto de calote a operação aguenta antes de virar prejuízo. */
+  const eValor = $('#e-valor'), eMeses = $('#e-meses'), eTaxa = $('#e-taxa'), eTaxaR = $('#e-taxa-r');
+  const eModo = $('#e-modo'), eCredor = $('#e-credor'), eDevedor = $('#e-devedor');
+  const eLines = $('#e-lines');
 
-  function simular() {
-    if (!sList) return;
-    const P = num(sVal.value);
-    const m = Math.max(1, Math.round(num(sMes.value)));
+  /* Art. 406 do CC (Lei 14.905/2024): taxa legal = Selic − IPCA, e nunca negativa. */
+  const taxaLegalAA = Math.max(0, (T.selic || 0) - (T.ipca12 || 0));
+  const tetoAA = taxaLegalAA * (T.usuraDobro || 2);
+  const tetoAM = (Math.pow(1 + tetoAA / 100, 1 / 12) - 1) * 100;
+
+  function emprestimo() {
+    if (!eLines) return;
+    const P = num(eValor.value);
+    const m = Math.max(1, Math.round(num(eMeses.value)));
+    const iAM = num(eTaxa.value) / 100;
+    const modo = eModo.value;
+
+    /* quanto volta, conforme o combinado de pagamento */
+    let parcela = 0, total = 0, rotulo = 'Parcela por mês';
+    if (modo === 'price') {
+      parcela = iAM > 0 ? P * iAM / (1 - Math.pow(1 + iAM, -m)) : P / m;
+      total = parcela * m;
+    } else if (modo === 'juros') {
+      parcela = P * iAM;
+      total = P + parcela * m;
+      rotulo = 'Juros por mês';
+    } else {
+      total = P * Math.pow(1 + iAM, m);
+      parcela = total;
+      rotulo = 'Uma parcela só, no fim';
+    }
+    const lucro = total - P;
+    const taxaAA = (Math.pow(1 + iAM, 12) - 1) * 100;
+
+    /* O mesmo dinheiro sem risco nenhum. A comparação é entre TAXAS, não entre
+       reais: no Price o principal volta aos poucos e some do bolso do devedor,
+       então comparar o total ganho puniria o Price sem motivo. */
     const dias = m * 30;
     const ir = irFaixa(dias);
+    const ganhoCDB = P * (Math.pow(1 + aoMes(T.cdi * T.cdbPctCdi / 100), m) - 1) * (1 - ir);
+    const cdiLiqAA = T.cdi * T.cdbPctCdi / 100 * (1 - ir);
 
-    const rendeBruto = aa => P * (Math.pow(1 + aoMes(aa), m) - 1);
+    /* Lei da Usura: o teto caiu para operação entre empresas, não para quem
+       tem pessoa física na ponta. */
+    const entreEmpresas = eCredor.value === 'pj' && eDevedor.value === 'pj';
+    const acimaDoTeto = !entreEmpresas && taxaAA > tetoAA + 0.0001;
 
-    // aluguel: tira administração, vacância e IR de 15% sobre o líquido
-    const aluguelLiqAA = T.aluguelYield * (1 - T.imovelCustoAdm / 100) * (1 - T.imovelVacancia / 100) * 0.85;
+    /* quanto do que você tem a receber pode virar pó antes de o seu próprio
+       dinheiro começar a sumir */
+    const margem = total > 0 ? lucro / total : 0;
+    const umACada = margem > 0 ? Math.max(1, Math.round(1 / margem)) : 0;
 
-    const ops = [
-      { nome: 'Conta corrente', bruto: 0, ir: 0, obs: 'Nada. Zero. Todo mês.' },
-      { nome: 'Poupança', bruto: rendeBruto(T.poupanca), ir: 0, obs: 'Isenta de IR' },
-      { nome: 'Imóvel alugado', bruto: rendeBruto(aluguelLiqAA), ir: 0, obs: 'Só o aluguel, líquido de custos e IR — sem contar valorização' },
-      { nome: 'Tesouro Selic', bruto: rendeBruto(T.selic), ir, obs: `IR de ${(ir * 100).toFixed(1).replace('.', ',')}% no ganho` },
-      { nome: `CDB ${T.cdbPctCdi}% CDI`, bruto: rendeBruto(T.cdi * T.cdbPctCdi / 100), ir, obs: `IR de ${(ir * 100).toFixed(1).replace('.', ',')}% no ganho` },
-      { nome: `LCI/LCA ${T.lciPctCdi}% CDI`, bruto: rendeBruto(T.cdi * T.lciPctCdi / 100), ir: 0, obs: 'Isenta de IR, sem liquidez diária' },
-    ].map(o => {
-      const liq = o.bruto * (1 - o.ir);
-      return { ...o, ganho: liq, final: P + liq };
-    }).sort((a, b) => b.final - a.final);
+    $('#e-total').textContent = brl(total);
+    $('#e-parcela').textContent = brl(parcela);
+    $('#e-parcela-label').textContent = rotulo;
 
-    const topo = ops[0], fundo = ops[ops.length - 1];
+    eLines.innerHTML = [
+      ['Você tira do bolso', '− ' + brl(P)],
+      ['Juros no período', brl(lucro)],
+      ['Taxa equivalente ao ano', pct(taxaAA) + ' a.a.'],
+      [entreEmpresas ? 'Teto legal (não se aplica entre empresas)' : 'Teto legal hoje',
+        entreEmpresas ? 'sem limite' : pct(tetoAA) + ' a.a. · ' + pct(tetoAM) + ' a.m.'],
+      ['O mesmo dinheiro num CDB', pct(cdiLiqAA) + ' a.a. · ' + brl(ganhoCDB) + ' no período'],
+    ].map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
 
-    sList.innerHTML = ops.map((o, i) => `
-      <li class="${i === 0 ? 'is-top' : ''}">
-        <span class="sim__rank">${String(i + 1).padStart(2, '0')}</span>
-        <span class="sim__nome">${o.nome}<em>${o.obs}</em></span>
-        <span class="sim__vals"><b>${brl(o.final)}</b><em>+${brl(o.ganho)}</em></span>
-      </li>`).join('');
-
-    const dif = topo.ganho - fundo.ganho;
-    const anos = (m / 12).toLocaleString('pt-BR', { maximumFractionDigits: 1 });
-    $('#sim-delta').innerHTML =
-      `Escolher <b>${topo.nome}</b> em vez de <b>${fundo.nome}</b> muda <b class="hl">${brl(dif)}</b> ` +
-      `em ${m} meses (${anos} ${m >= 12 ? 'anos' : 'ano'}). É a mesma poupança, o mesmo esforço — só a decisão é diferente.`;
-
-    atualizaMitos(P);
-  }
-
-  const bindPair = (input, range, fmt) => {
-    if (!input) return;
-    if (range) {
-      range.addEventListener('input', () => {
-        input.value = fmt ? Number(range.value).toLocaleString('pt-BR') : range.value;
-        simular();
-      });
-    }
-    input.addEventListener('input', () => {
-      if (range) range.value = String(num(input.value));
-      simular();
-    });
-    input.addEventListener('blur', () => {
-      const v = num(input.value);
-      input.value = fmt ? v.toLocaleString('pt-BR') : String(v);
-    });
-  };
-  bindPair(sVal, sValR, true);
-  bindPair(sMes, sMesR, false);
-  simular();
-
-  /* ══════════════════ IMÓVEL PARA ALUGAR ══════════════════ */
-  const iCampos = ['i-preco', 'i-aluguel', 'i-custos', 'i-manut', 'i-vago', 'i-valoriza'].map(id => $('#' + id));
-
-  function imovel() {
-    if (!iCampos[0]) return;
-    const preco = num(iCampos[0].value);
-    const aluguel = num(iCampos[1].value);
-    const custos = num(iCampos[2].value);
-    const manut = num(iCampos[3].value);
-    const vago = Math.min(11, Math.max(0, num(iCampos[4].value)));
-    const valoriza = num(iCampos[5].value);
-    if (!preco) return;
-
-    const mesesPagos = 12 - vago;
-    const bruto = aluguel * 12;
-    const perdaVac = aluguel * vago;
-    const adm = aluguel * mesesPagos * (T.imovelCustoAdm / 100);
-    const fixos = custos * 12;
-    const antesIR = bruto - perdaVac - adm - fixos - manut;
-    const imposto = Math.max(0, antesIR) * 0.15;
-    const liquido = antesIR - imposto;
-
-    const yieldLiq = liquido / preco * 100;
-    const total = yieldLiq + valoriza;
-    const cdiLiq = T.cdi * (1 - 0.15);
-
-    $('#i-bruto').textContent = brl(bruto);
-    $('#i-desc').textContent = '− ' + brl(perdaVac + adm + fixos + manut + imposto);
-    $('#i-liq').textContent = brl(liquido);
-    $('#i-yield').textContent = pct(yieldLiq) + ' a.a.';
-    $('#i-total').textContent = pct(total) + ' a.a.';
-    $('#i-cdi').textContent = pct(cdiLiq) + ' a.a. · ' + brl(preco * cdiLiq / 100) + '/ano';
-
-    const tag = $('#i-tag'), txt = $('#i-txt'), box = $('#i-verdict');
-    box.classList.remove('is-good', 'is-mid', 'is-bad');
-
-    const rendaMes = liquido / 12;
-    if (total >= cdiLiq + 2) {
-      box.classList.add('is-good');
-      tag.textContent = 'A conta fecha';
-      txt.innerHTML = `Com essa valorização, o imóvel entrega <b>${pct(total)} ao ano</b> contra
-        <b>${pct(cdiLiq)}</b> do CDI líquido. Só lembre: ${pct(yieldLiq)} disso é dinheiro no bolso
-        (${brl(rendaMes)}/mês) e o resto só existe no dia da venda.`;
-    } else if (total >= cdiLiq - 2) {
-      box.classList.add('is-mid');
-      tag.textContent = 'Empata — com mais trabalho';
-      txt.innerHTML = `Dá praticamente o mesmo que o CDI (<b>${pct(total)}</b> contra
-        <b>${pct(cdiLiq)}</b>), mas com inquilino, obra, IPTU e dinheiro preso. Aqui a escolha é de
-        estilo de vida, não de rentabilidade.`;
+    const vd = $('#e-veredito');
+    vd.classList.remove('is-bad', 'is-good', 'is-warn');
+    if (acimaDoTeto) {
+      vd.classList.add('is-bad');
+      vd.innerHTML = `Acima do teto legal — ${pct(taxaAA)} a.a. contra ${pct(tetoAA)} permitidos`;
+    } else if (taxaAA <= cdiLiqAA) {
+      vd.classList.add('is-warn');
+      vd.innerHTML = `${pct(taxaAA)} ao ano rende menos que o CDB (${pct(cdiLiqAA)}) — e com risco de não voltar`;
     } else {
-      box.classList.add('is-bad');
-      tag.textContent = 'Não fecha só na conta';
-      txt.innerHTML = `O imóvel rende <b>${pct(total)} ao ano</b> e o CDI líquido paga
-        <b>${pct(cdiLiq)}</b> sem trabalho nenhum. Para virar o jogo, você precisaria de
-        valorização de <b>${pct(Math.max(0, cdiLiq - yieldLiq))} ao ano</b> — ou comprar mais barato.`;
+      vd.classList.add('is-good');
+      vd.innerHTML = `${(taxaAA / (cdiLiqAA || 1)).toFixed(1).replace('.', ',')}× o CDB${entreEmpresas ? '' : ' e dentro do teto legal'}`;
     }
+
+    const risco = $('#e-risco');
+    if (margem <= 0) {
+      risco.innerHTML = `Sem juros não há colchão: o primeiro que não pagar leva embora o seu
+        dinheiro, não o seu lucro.`;
+    } else {
+      risco.innerHTML = `Você aguenta perder <b>${pct(margem * 100)}</b> do que tem a receber
+        antes de o seu próprio dinheiro começar a sumir — algo como <b>1 calote a cada
+        ${umACada}</b> empréstimos iguais a este. É o seu colchão de risco, e ele encolhe a cada
+        prazo maior.`;
+    }
+
+    const legal = $('#e-legal');
+    legal.innerHTML = entreEmpresas
+      ? `Operação entre empresas: desde a <b>Lei 14.905/2024</b>, empréstimo entre pessoas
+         jurídicas não financeiras não tem teto de juros. O limite passa a ser o contrato e o
+         risco — não a lei.`
+      : `Com pessoa física na operação, vale o teto da <b>Lei da Usura</b>: no máximo o dobro da
+         taxa legal (Selic − IPCA), hoje <b>${pct(tetoAA)} ao ano</b>, ou <b>${pct(tetoAM)} ao
+         mês</b>. Cobrar acima disso torna a cláusula contestável e é o que caracteriza
+         agiotagem (${T.agiotagemLei}). O app não deixa você passar disso sem saber.`;
   }
-  iCampos.forEach(c => c && c.addEventListener('input', imovel));
-  iCampos.forEach(c => c && c.addEventListener('blur', () => { c.value = num(c.value).toLocaleString('pt-BR'); }));
-  imovel();
+
+  [eValor, eMeses, eTaxa, eModo, eCredor, eDevedor].forEach(c => c && c.addEventListener('input', emprestimo));
+  [eValor, eMeses].forEach(c => c && c.addEventListener('blur', () => { c.value = num(c.value).toLocaleString('pt-BR'); }));
+  if (eTaxaR) eTaxaR.addEventListener('input', () => { eTaxa.value = eTaxaR.value.replace('.', ','); emprestimo(); });
+  if (eTaxa) eTaxa.addEventListener('input', () => { eTaxaR.value = String(num(eTaxa.value)); });
+  emprestimo();
+
+  /* ══════════════════ PRECIFICAR O ALUGUEL DO CARRO ══════════════════
+     A diária só é lucro depois de pagar depreciação, IPVA, seguro,
+     manutenção e os dias em que o carro fica na garagem. */
+  const cValor = $('#c-valor'), cDiaria = $('#c-diaria'), cDias = $('#c-dias'), cDiasR = $('#c-dias-r');
+  const cDep = $('#c-dep'), cSeg = $('#c-seg'), cMan = $('#c-man'), cIpva = $('#c-ipva');
+  const cLines = $('#c-lines');
+
+  function precificar() {
+    if (!cLines) return;
+    const V = num(cValor.value);
+    const D = num(cDiaria.value);
+    const dias = Math.max(1, Math.round(num(cDias.value)));
+
+    const dep = V * num(cDep.value) / 100 / 12;
+    const seg = V * num(cSeg.value) / 100 / 12;
+    const man = V * num(cMan.value) / 100 / 12;
+    const ipva = V * num(cIpva.value) / 100 / 12;
+    const custo = dep + seg + man + ipva;
+
+    const receita = D * dias;
+    const sobra = receita - custo;
+    const retornoAA = V > 0 ? (sobra * 12 / V) * 100 : 0;
+
+    /* o piso: o mesmo dinheiro num CDB de longo prazo, líquido de IR */
+    const cdiLiqAA = T.cdi * T.cdbPctCdi / 100 * 0.85;
+    const alvoMes = V * cdiLiqAA / 100 / 12;
+    const minima = dias > 0 ? (custo + alvoMes) / dias : 0;
+    const payback = sobra > 0 ? V / sobra : 0;
+
+    $('#c-sobra').textContent = brl(sobra);
+    $('#c-minima').textContent = brl2(minima);
+
+    cLines.innerHTML = [
+      ['Receita no mês', brl(receita)],
+      ['Depreciação', '− ' + brl(dep)],
+      ['Seguro e rastreador', '− ' + brl(seg)],
+      ['Manutenção', '− ' + brl(man)],
+      ['IPVA e licenciamento', '− ' + brl(ipva)],
+      ['Retorno sobre o valor do carro', pct(retornoAA) + ' a.a.'],
+      ['O mesmo dinheiro num CDB', pct(cdiLiqAA) + ' a.a.'],
+    ].map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
+
+    const vd = $('#c-veredito');
+    vd.classList.remove('is-bad', 'is-good', 'is-warn');
+    if (sobra <= 0) {
+      vd.classList.add('is-bad');
+      vd.textContent = 'No vermelho: a diária não cobre nem o custo do carro';
+    } else if (retornoAA < cdiLiqAA) {
+      vd.classList.add('is-warn');
+      vd.textContent = 'Dá lucro, mas rende menos que o banco — e dá muito mais trabalho';
+    } else {
+      vd.classList.add('is-good');
+      vd.textContent = `Fecha: ${pct(retornoAA)} ao ano, ${(retornoAA / cdiLiqAA).toFixed(1).replace('.', ',')}× o CDB`;
+    }
+
+    const nota = $('#c-nota');
+    nota.innerHTML = payback > 0
+      ? `Neste ritmo o carro se paga em <b>${Math.ceil(payback)} meses</b> de locação. Cada dia
+         parado custa <b>${brl2(custo / 30)}</b> — o custo corre mesmo com o carro na garagem.`
+      : `Sem sobra não há payback: o carro está sendo financiado por você, não pelo cliente.`;
+  }
+
+  [cValor, cDiaria, cDias, cDep, cSeg, cMan, cIpva].forEach(c => c && c.addEventListener('input', precificar));
+  [cValor, cDiaria].forEach(c => c && c.addEventListener('blur', () => { c.value = num(c.value).toLocaleString('pt-BR'); }));
+  if (cDiasR) cDiasR.addEventListener('input', () => { cDias.value = cDiasR.value; precificar(); });
+  if (cDias) cDias.addEventListener('input', () => { cDiasR.value = String(num(cDias.value)); });
+  precificar();
 
   /* ══════════════════ JUROS DE ATRASO ══════════════════ */
   const jVal = $('#j-valor'), jDias = $('#j-dias'), jDiasR = $('#j-dias-r');
@@ -466,55 +514,6 @@
   if (hPat) hPat.addEventListener('blur', () => { hPat.value = num(hPat.value).toLocaleString('pt-BR'); });
   sucessao();
 
-  /* ══════════════════ CONTAS DOS MITOS ══════════════════ */
-  function atualizaMitos() {
-    const cdiLiq = T.cdi * (1 - 0.15);
-    const linha = (a, b, tom) => `<div class="mito__line ${tom || ''}"><span>${a}</span><b>${b}</b></div>`;
-
-    // 01 piscina: R$ 60 mil numa casa de R$ 600 mil
-    const pisc = 60000, casa = 600000, manutMes = 300, anos = 10;
-    const valorizaPiscina = casa * 0.06;                       // 6% do valor do imóvel
-    const manut10 = manutMes * 12 * anos;
-    const cdi10 = pisc * (Math.pow(1 + cdiLiq / 100, anos) - 1);
-    const p1 = $('#mito-piscina');
-    if (p1) p1.innerHTML =
-      linha('Construir (piscina média)', '− ' + brl(pisc), 'is-bad') +
-      linha('Valoriza a casa de R$ 600 mil em ~6%', '+ ' + brl(valorizaPiscina)) +
-      linha(`Manutenção em ${anos} anos (R$ ${manutMes}/mês)`, '− ' + brl(manut10), 'is-bad') +
-      linha('Resultado da piscina', brlS(valorizaPiscina - pisc - manut10), 'is-bad') +
-      linha(`Alternativa: R$ 60 mil no CDI por ${anos} anos`, '+ ' + brl(cdi10), 'is-good') +
-      linha('Escolher a piscina custou', brlS(valorizaPiscina - pisc - manut10 - cdi10), 'is-total');
-
-    // 02 imóvel x CDI, no valor que a pessoa digitou no simulador
-    const preco = num(($('#i-preco') || {}).value || 450000) || 450000;
-    const alugLiqAA = T.aluguelYield * (1 - T.imovelCustoAdm / 100) * (1 - T.imovelVacancia / 100) * 0.85;
-    const p2 = $('#mito-imovel');
-    if (p2) p2.innerHTML =
-      linha(`Aluguel líquido de um imóvel de ${brl(preco)}`, brl(preco * alugLiqAA / 100) + '/ano') +
-      linha('O mesmo valor no CDI, líquido de IR', brl(preco * cdiLiq / 100) + '/ano', 'is-good') +
-      linha('Diferença por ano, sem contar valorização', brl(preco * (cdiLiq - alugLiqAA) / 100), 'is-total');
-
-    // 03 reforma de luxo
-    const ref = 80000;
-    const p3 = $('#mito-reforma');
-    if (p3) p3.innerHTML =
-      linha('Reforma de alto padrão', '− ' + brl(ref), 'is-bad') +
-      linha('O que o mercado costuma devolver (30–50%)', '+ ' + brl(ref * 0.4)) +
-      linha('Perdeu no acabamento', brlS(ref * 0.4 - ref), 'is-bad') +
-      linha('Alternativa: R$ 80 mil no CDI por 3 anos', '+ ' + brl(ref * (Math.pow(1 + cdiLiq / 100, 3) - 1)), 'is-good') +
-      linha('Escolher o luxo custou', brlS(ref * 0.4 - ref - ref * (Math.pow(1 + cdiLiq / 100, 3) - 1)), 'is-total');
-
-    // 04 terreno parado
-    const ter = 200000, iptu = 2400, a5 = 5;
-    const p4 = $('#mito-terreno');
-    if (p4) p4.innerHTML =
-      linha(`IPTU e conservação em ${a5} anos`, '− ' + brl(iptu * a5), 'is-bad') +
-      linha('Renda que o terreno gera nesse tempo', 'R$ 0', 'is-bad') +
-      linha(`O mesmo valor no CDI em ${a5} anos`, '+ ' + brl(ter * (Math.pow(1 + cdiLiq / 100, a5) - 1)), 'is-good') +
-      linha('Valorização necessária só para empatar', pct(cdiLiq + iptu / ter * 100) + ' a.a.', 'is-total');
-  }
-  atualizaMitos();
-
   /* ─────────── reveal com stagger ─────────── */
   const revs = $$('.reveal');
   document.documentElement.classList.add('js-anim');
@@ -573,6 +572,34 @@
     form.querySelector('button[type=submit]').textContent = 'WhatsApp aberto';
     $('#form-ok').hidden = false;
   });
+
+  /* ══════════════════ ALERTA DE NOVO LEILÃO ══════════════════
+     Sem backend: os filtros viram a mensagem que a pessoa manda no WhatsApp. */
+  const chips = $$('#alerta-chips .chip');
+  const alCta = $('#al-cta');
+  if (chips.length && alCta) {
+    const montar = () => {
+      const tipos = chips.filter(c => c.classList.contains('is-on')).map(c => c.dataset.chip);
+      const regiao = ($('#al-regiao') || {}).value || '';
+      const teto = num(($('#al-teto') || {}).value || 0);
+      const texto =
+        `Oi! Quero receber alerta de leilão pelo Reis Factory.
+` +
+        `O que me interessa: ${tipos.length ? tipos.join(', ') : 'qualquer lote'}.
+` +
+        (regiao ? `Região: ${regiao}.
+` : '') +
+        (teto ? `Arremato até ${brl(teto)}.` : '');
+      alCta.href = `https://wa.me/5519988013439?text=${encodeURIComponent(texto)}`;
+      alCta.target = '_blank';
+      alCta.rel = 'noopener';
+    };
+    chips.forEach(c => c.addEventListener('click', () => { c.classList.toggle('is-on'); montar(); }));
+    ['#al-regiao', '#al-teto'].forEach(sel => { const e = $(sel); if (e) e.addEventListener('input', montar); });
+    const alTeto = $('#al-teto');
+    if (alTeto) alTeto.addEventListener('blur', () => { alTeto.value = num(alTeto.value).toLocaleString('pt-BR'); });
+    montar();
+  }
 
   /* ══════════════════ MOCKS DE PRODUTO ══════════════════ */
   const cdiMes = aoMes(T.cdi) * 100;

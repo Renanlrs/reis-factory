@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Reis Factory | Gestão do seu dinheiro e onde ele deveria estar</title>
-<meta name="description" content="O Reis Factory mostra quanto seu dinheiro rende hoje, simula onde investir (CDI, Tesouro, LCI, imóvel), calcula se casa para alugar compensa e derruba os mitos de retorno — piscina, reforma de luxo, terreno parado." />
+<title>Reis Factory | Quanto cobrar, qual contrato usar e se o negócio fecha</title>
+<meta name="description" content="Para quem empresta dinheiro, aluga carro e compra em leilão: calcule quanto cobrar, o teto legal de juros, a diária que faz o carro se pagar, o custo real do lance e gere o contrato — com a conta feita, não no chute." />
 <meta name="theme-color" content="#052424" />
-<meta property="og:title" content="Reis Factory | Onde seu dinheiro deveria estar" />
-<meta property="og:description" content="Dinheiro parado é decisão tomada. Simule onde investir, veja se o imóvel para aluguel compensa e descubra o que realmente dá retorno." />
+<meta property="og:title" content="Reis Factory | Seu dinheiro está na rua. Quanto ele te paga?" />
+<meta property="og:description" content="Emprestou, alugou o carro, arrematou no leilão: quanto cobrar, o teto que a lei permite e se o negócio fecha." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renanlrs.github.io/reis-factory/" />
 <meta property="og:site_name" content="Reis Factory" />
@@ -17,8 +17,8 @@
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Reis Factory — você sabe onde seu dinheiro está. Sabe onde ele deveria estar?" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Reis Factory | Onde seu dinheiro deveria estar" />
-<meta name="twitter:description" content="Dinheiro parado é decisão tomada. Veja quanto o seu deixa na mesa por ano." />
+<meta name="twitter:title" content="Reis Factory | Seu dinheiro está na rua. Quanto ele te paga?" />
+<meta name="twitter:description" content="Quanto cobrar no empréstimo, na diária do carro e no lance do leilão — com o teto legal na tela." />
 <meta name="twitter:image" content="https://renanlrs.github.io/reis-factory/assets/img/og-cover.png" />
 <link rel="canonical" href="https://renanlrs.github.io/reis-factory/" />
 <link rel="icon" type="image/png" href="assets/img/logo-mark.png" />
@@ -39,12 +39,12 @@
     </a>
 
     <nav class="nav__links" aria-label="Navegação principal">
-      <a href="#rende">Quanto rende</a>
-      <a href="#simulador">Onde investir</a>
-      <a href="#cobranca">Cobrança</a>
-      <a href="#locacao">Locação e frota</a>
+      <a href="#emprestimo">Emprestar</a>
+      <a href="#precificar">Precificar</a>
       <a href="#leiloes">Leilões</a>
-      <a href="#documentos">Documentos</a>
+      <a href="#cobranca">Cobrança</a>
+      <a href="#locacao">Frota</a>
+      <a href="#documentos">Contratos</a>
     </nav>
 
     <div class="nav__actions">
@@ -58,14 +58,13 @@
   </div>
 
   <div class="nav__drawer" id="drawer" hidden>
-    <a href="#rende">Quanto rende hoje</a>
-    <a href="#simulador">Onde investir</a>
-    <a href="#imovel">Casa para alugar</a>
-    <a href="#mitos">Mitos de retorno</a>
+    <a href="#emprestimo">Emprestar dinheiro</a>
+    <a href="#precificar">Precificar o aluguel do carro</a>
+    <a href="#leiloes">Leilões e alertas de edital</a>
     <a href="#cobranca">Cobrança e juros de atraso</a>
     <a href="#locacao">Rastreador, frota e aluguéis</a>
-    <a href="#leiloes">Calendário de leilões</a>
-    <a href="#documentos">Testamento e contratos</a>
+    <a href="#documentos">Contratos e documentos</a>
+    <a href="#regua">A régua: bom ou mau negócio</a>
     <a href="#plataforma">O app</a>
     <a href="#faq">Dúvidas</a>
     <a class="btn btn--lime btn--block" href="#contato">Falar com a gente</a>
@@ -78,18 +77,19 @@
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="hero__content">
-    <p class="eyebrow eyebrow--light reveal">Gestão de dinheiro com inteligência de investimento</p>
+    <p class="eyebrow eyebrow--light reveal">Para quem empresta, aluga e arremata com o próprio dinheiro</p>
     <h1 class="hero__title reveal">
-      Você sabe onde seu dinheiro está.<br />
-      Sabe onde ele <em>deveria estar</em>?
+      Seu dinheiro está na rua.<br />
+      Quanto ele está <em>te pagando</em>?
     </h1>
     <p class="hero__sub reveal">
-      O Reis Factory organiza o que entra e o que sai — e vai além: mostra quanto seu dinheiro
-      rende hoje, onde ele renderia mais e o que só <em>parece</em> investimento.
+      Emprestar, alugar o carro, arrematar no leilão: o Reis Factory calcula quanto cobrar, qual é
+      o teto que a lei permite, o contrato que trava o combinado e se o negócio fecha — antes de
+      o dinheiro sair do bolso.
     </p>
     <div class="hero__cta reveal">
-      <a class="btn btn--lime btn--lg" href="#simulador">Simular onde investir</a>
-      <a class="btn btn--ghost-light btn--lg" href="#rende">Ver quanto rende hoje</a>
+      <a class="btn btn--lime btn--lg" href="#emprestimo">Calcular um empréstimo</a>
+      <a class="btn btn--ghost-light btn--lg" href="#precificar">Precificar meu carro</a>
     </div>
 
     <p class="hero__copom reveal" id="copom" hidden></p>
@@ -102,515 +102,360 @@
   <div class="hero__scroll" aria-hidden="true"><span></span></div>
 </section>
 
-<!-- ══════════════════ PAINEL DE TAXAS ══════════════════ -->
-<section class="rates section--ink" id="rende">
-  <div class="rates__head">
-    <p class="eyebrow eyebrow--light reveal">Quanto seu dinheiro rende hoje</p>
-    <h2 class="h-display h-display--light reveal">
-      Dinheiro parado<br />
-      <span class="muted-light">também é uma decisão.</span>
-    </h2>
-    <p class="rates__sub reveal">
-      Os números de mercado de hoje, do jeito que importam: quanto <b>o seu dinheiro</b> renderia
-      por mês em cada lugar onde ele pode estar. Escreva o valor e o painel inteiro se refaz.
-    </p>
-  </div>
-
-  <div class="parado reveal" id="parado">
-    <div class="parado__ask">
-      <label class="parado__label" for="p-valor">Quanto você tem parado na conta hoje?</label>
-      <div class="parado__field">
-        <span>R$</span>
-        <input id="p-valor" inputmode="numeric" value="10.000" aria-describedby="parado-nota" />
-      </div>
-      <p class="parado__nota" id="parado-nota">
-        Fica só no seu navegador. Comparamos com um CDB de <b><span id="p-cdi-pct">100</span>% do CDI</b>,
-        já descontando o imposto de renda da faixa de até 180 dias.
-      </p>
-    </div>
-
-    <div class="parado__out">
-      <p class="parado__eyebrow">Deixado na mesa</p>
-      <div class="parado__nums">
-        <div><b id="p-dia">—</b><span>por dia</span></div>
-        <div><b id="p-mes">—</b><span>por mês</span></div>
-        <div><b id="p-ano">—</b><span>em 12 meses</span></div>
-      </div>
-      <p class="parado__live">
-        Só hoje, até agora:
-        <b id="p-live">R$ 0,00</b>
-      </p>
-
-      <a class="btn btn--lime parado__cta" id="p-cta" href="#simulador">
-        Ver onde esse dinheiro renderia mais
-      </a>
-    </div>
-  </div>
-
-  <div class="rates__grid" id="rates-grid"></div>
-
-  <p class="rates__src reveal" id="rates-src"></p>
-</section>
-
-<!-- ══════════════════ STORYTELLING ══════════════════ -->
-<section class="story section--paper" id="historia">
+<!-- ══════════════════ EMPRESTAR DINHEIRO ══════════════════ -->
+<section class="emp section--paper" id="emprestimo">
   <div class="grid-deco" aria-hidden="true"></div>
 
-  <div class="story__lede">
-    <p class="eyebrow reveal">A história é sempre a mesma</p>
-    <h2 class="h-display reveal">
-      Ninguém fica pobre<br />gastando demais.<br />
-      <span class="muted">Fica pobre decidindo<br />sem saber a conta.</span>
-    </h2>
-  </div>
-
-  <div class="story__cards">
-    <article class="card reveal">
-      <p class="card__eyebrow">01 · Sobrou na conta</p>
-      <h3 class="card__title">“Depois eu aplico.”</h3>
-      <p class="card__body">
-        R$ 40 mil na conta corrente há cinco meses. Rendimento: zero. No CDI de hoje, esse
-        “depois” já custou o preço de uma viagem — e ninguém percebeu, porque não saiu nada da conta.
-      </p>
-      <div class="card__viz" data-viz="parado" aria-hidden="true"></div>
-      <span class="card__tag">Custo invisível</span>
-    </article>
-
-    <article class="card reveal">
-      <p class="card__eyebrow">02 · O conselho do almoço</p>
-      <h3 class="card__title">“Imóvel nunca cai.”</h3>
-      <p class="card__body">
-        Alguém disse na mesa e virou verdade. Ninguém abriu a calculadora para ver o aluguel
-        líquido, o IPTU, o mês vago e o dinheiro preso — nem comparou com o que rende sem trabalho.
-      </p>
-      <div class="card__viz" data-viz="versus" aria-hidden="true"></div>
-      <span class="card__tag">Achismo</span>
-    </article>
-
-    <article class="card reveal">
-      <p class="card__eyebrow">03 · Dois anos depois</p>
-      <h3 class="card__title">A piscina não voltou.</h3>
-      <p class="card__body">
-        Custou R$ 60 mil, valorizou uns R$ 30 mil na venda e cobra R$ 300 por mês para existir.
-        Não foi um erro de gosto: foi um erro de conta que ninguém fez antes.
-      </p>
-      <div class="card__viz" data-viz="piscina" aria-hidden="true"></div>
-      <span class="card__tag">Mito</span>
-    </article>
-  </div>
-
-  <p class="story__punch reveal">
-    Você não precisa ganhar mais para ter mais.<br />
-    <strong>Precisa parar de perder na decisão.</strong>
-  </p>
-</section>
-
-<!-- ══════════════════ SIMULADOR: ONDE INVESTIR ══════════════════ -->
-<section class="sim section--paper" id="simulador">
-  <div class="sim__head">
-    <p class="eyebrow reveal">Simulador de alocação</p>
-    <h2 class="h-display reveal">Onde colocar<br />esse dinheiro?</h2>
-    <p class="sim__sub reveal">
-      Diga quanto e por quanto tempo. A gente devolve o valor líquido de cada opção —
-      já com Imposto de Renda, isenções e os custos que costumam ficar de fora da conversa.
+  <div class="emp__head">
+    <p class="eyebrow reveal">Emprestar dinheiro</p>
+    <h2 class="h-display reveal">Emprestar é fácil.<br />Receber de volta é<br />que dá trabalho.</h2>
+    <p class="emp__sub reveal">
+      Quanto cobrar, até onde a lei deixa cobrar, quanto sobra depois do calote e o contrato que
+      transforma o combinado em dívida cobrável. Escreva os números e veja a operação inteira.
     </p>
   </div>
 
-  <div class="sim__box reveal">
-    <div class="sim__fields">
+  <div class="emp__calc reveal">
+    <div class="emp__fields">
+      <div class="frow">
+        <label class="field">
+          <span class="field__label">Quem empresta</span>
+          <span class="field__wrap field__wrap--select">
+            <select id="e-credor">
+              <option value="pf">Eu, pessoa física</option>
+              <option value="pj">Minha empresa (CNPJ)</option>
+            </select>
+          </span>
+        </label>
+        <label class="field">
+          <span class="field__label">Quem toma</span>
+          <span class="field__wrap field__wrap--select">
+            <select id="e-devedor">
+              <option value="pf">Pessoa física</option>
+              <option value="pj">Empresa (CNPJ)</option>
+            </select>
+          </span>
+        </label>
+      </div>
+
+      <div class="frow">
+        <label class="field">
+          <span class="field__label">Quanto você vai emprestar</span>
+          <span class="field__wrap"><span class="field__prefix">R$</span>
+            <input id="e-valor" type="text" inputmode="numeric" value="10.000" /></span>
+        </label>
+        <label class="field">
+          <span class="field__label">Em quantos meses</span>
+          <span class="field__wrap"><input id="e-meses" type="text" inputmode="numeric" value="12" />
+            <span class="field__suffix">meses</span></span>
+        </label>
+      </div>
+
       <label class="field">
-        <span class="field__label">Quanto você tem para aplicar</span>
-        <span class="field__wrap">
-          <span class="field__prefix">R$</span>
-          <input id="s-valor" type="text" inputmode="numeric" value="50.000" />
-        </span>
-        <input class="field__range" id="s-valor-r" type="range" min="1000" max="2000000" step="1000" value="50000" />
+        <span class="field__label">Juros que você quer cobrar</span>
+        <span class="field__wrap"><input id="e-taxa" type="text" inputmode="decimal" value="3" />
+          <span class="field__suffix">% ao mês</span></span>
+        <input class="field__range" id="e-taxa-r" type="range" min="0.5" max="15" step="0.1" value="3" />
       </label>
 
       <label class="field">
-        <span class="field__label">Por quanto tempo</span>
-        <span class="field__wrap">
-          <input id="s-meses" type="text" inputmode="numeric" value="24" />
-          <span class="field__suffix">meses</span>
+        <span class="field__label">Como o dinheiro volta</span>
+        <span class="field__wrap field__wrap--select">
+          <select id="e-modo">
+            <option value="price">Parcelas iguais todo mês (Price)</option>
+            <option value="juros">Só os juros por mês, principal no fim</option>
+            <option value="unico">Tudo de uma vez, no vencimento</option>
+          </select>
         </span>
-        <input class="field__range" id="s-meses-r" type="range" min="1" max="120" step="1" value="24" />
       </label>
 
-      <div class="sim__note">
-        <p><b>O que entra na conta:</b> CDI de <span data-t="cdi"></span>% a.a., Selic de
-        <span data-t="selic"></span>% a.a., poupança a 0,5% ao mês e aluguel rendendo
-        <span data-t="aluguelYield"></span>% a.a. bruto.</p>
-        <p><b>Imposto:</b> tabela regressiva (22,5% até 180 dias · 20% até 360 · 17,5% até 720 ·
-        15% acima). LCI, LCA e poupança são isentas. No aluguel descontamos administração e
-        um mês vago por ano.</p>
+      <p class="emp__legal" id="e-legal"></p>
+    </div>
+
+    <div class="emp__out">
+      <p class="emp__veredito" id="e-veredito">—</p>
+
+      <div class="emp__big">
+        <div>
+          <span>Você recebe de volta</span>
+          <b id="e-total">R$ 0</b>
+        </div>
+        <div>
+          <span id="e-parcela-label">Parcela</span>
+          <b id="e-parcela">R$ 0</b>
+        </div>
+      </div>
+
+      <ul class="imovel__lines emp__lines" id="e-lines"></ul>
+
+      <div class="emp__risco">
+        <p class="emp__risco-h">O número que ninguém calcula</p>
+        <p class="emp__risco-txt" id="e-risco"></p>
+      </div>
+
+      <div class="emp__acts">
+        <a class="btn btn--ghost-light" href="#documentos">Gerar o contrato</a>
+        <a class="btn btn--lime" href="#contato">Quero isso rodando pra mim</a>
       </div>
     </div>
+  </div>
 
-    <div class="sim__out">
-      <p class="sim__out-label">Ao fim do prazo, no bolso</p>
-      <ul class="sim__list" id="sim-list"></ul>
-      <p class="sim__delta" id="sim-delta"></p>
-      <a class="btn btn--lime btn--lg btn--block" href="#contato">Quero esse acompanhamento no app</a>
+  <div class="emp__cards">
+    <article class="step reveal">
+      <p class="card__eyebrow">01 · Antes de emprestar</p>
+      <h3>O teto de juros aparece antes de você combinar</h3>
+      <p>
+        Com pessoa física na operação, a lei limita os juros ao <b>dobro da taxa legal</b> — que
+        hoje é a Selic menos o IPCA. Passar disso não é detalhe: o contrato vira contestável e a
+        operação encosta em agiotagem. O app mostra o teto do dia antes de você falar um número.
+      </p>
+    </article>
+    <article class="step reveal">
+      <p class="card__eyebrow">02 · Na hora de fechar</p>
+      <h3>Contrato de mútuo com os números que você acabou de rodar</h3>
+      <p>
+        Valor, prazo, juros, vencimento, multa e o que acontece se atrasar — preenchidos com a
+        simulação, não em branco. Empréstimo no boca a boca não é dívida: é favor com data.
+      </p>
+    </article>
+    <article class="step reveal">
+      <p class="card__eyebrow">03 · Depois que emprestou</p>
+      <h3>A parcela cobra sozinha e o atraso já vem corrigido</h3>
+      <p>
+        Cada vencimento entra na régua de cobrança, com multa e mora calculadas por dia. Você não
+        precisa lembrar da data nem escolher as palavras — e continua sabendo quem está devendo
+        quanto, hoje.
+      </p>
+    </article>
+  </div>
+</section>
+
+
+<!-- ══════════════════ PRECIFICAR O ALUGUEL ══════════════════ -->
+<section class="prec section--ink" id="precificar">
+  <div class="prec__head">
+    <p class="eyebrow eyebrow--light reveal">Quanto cobrar pelo carro</p>
+    <h2 class="h-display h-display--light reveal">A diária que parece<br />boa é a que quebra<br />a operação.</h2>
+    <p class="prec__sub reveal">
+      Carro alugado tem cinco custos que não aparecem na diária: depreciação, IPVA, seguro,
+      manutenção e o dia parado. O app soma os cinco e devolve a <b>diária mínima</b> — abaixo
+      dela você está pagando para trabalhar.
+    </p>
+  </div>
+
+  <div class="prec__calc reveal">
+    <div class="prec__fields">
+      <div class="frow">
+        <label class="field">
+          <span class="field__label">Quanto vale o carro hoje</span>
+          <span class="field__wrap"><span class="field__prefix">R$</span>
+            <input id="c-valor" type="text" inputmode="numeric" value="70.000" /></span>
+        </label>
+        <label class="field">
+          <span class="field__label">Diária que você cobra</span>
+          <span class="field__wrap"><span class="field__prefix">R$</span>
+            <input id="c-diaria" type="text" inputmode="numeric" value="150" /></span>
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Dias alugados por mês</span>
+        <span class="field__wrap"><input id="c-dias" type="text" inputmode="numeric" value="22" />
+          <span class="field__suffix">dias</span></span>
+        <input class="field__range" id="c-dias-r" type="range" min="1" max="30" step="1" value="22" />
+      </label>
+
+      <div class="frow">
+        <label class="field">
+          <span class="field__label">Depreciação por ano</span>
+          <span class="field__wrap"><input id="c-dep" type="text" inputmode="decimal" value="12" />
+            <span class="field__suffix">% do valor</span></span>
+        </label>
+        <label class="field">
+          <span class="field__label">Seguro + rastreador por ano</span>
+          <span class="field__wrap"><input id="c-seg" type="text" inputmode="decimal" value="6" />
+            <span class="field__suffix">% do valor</span></span>
+        </label>
+      </div>
+
+      <div class="frow">
+        <label class="field">
+          <span class="field__label">Manutenção por ano</span>
+          <span class="field__wrap"><input id="c-man" type="text" inputmode="decimal" value="4" />
+            <span class="field__suffix">% do valor</span></span>
+        </label>
+        <label class="field">
+          <span class="field__label">IPVA + licenciamento</span>
+          <span class="field__wrap"><input id="c-ipva" type="text" inputmode="decimal" value="4" />
+            <span class="field__suffix">% do valor</span></span>
+        </label>
+      </div>
+
+      <p class="prec__legal">
+        Os percentuais vêm com a média de mercado preenchida — troque pelos seus. Depreciação é
+        custo mesmo sem sair dinheiro do bolso: é o preço que o carro perde enquanto trabalha.
+      </p>
+    </div>
+
+    <div class="prec__out">
+      <p class="prec__veredito" id="c-veredito">—</p>
+
+      <div class="prec__big">
+        <div>
+          <span>Sobra por mês</span>
+          <b id="c-sobra">R$ 0</b>
+        </div>
+        <div>
+          <span>Diária mínima para bater o CDI</span>
+          <b id="c-minima">R$ 0</b>
+        </div>
+      </div>
+
+      <ul class="imovel__lines prec__lines" id="c-lines"></ul>
+
+      <p class="prec__nota" id="c-nota"></p>
+
+      <div class="prec__acts">
+        <a class="btn btn--lime" href="#contato">Quero precificar minha frota</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════ IMÓVEL PARA ALUGAR ══════════════════ -->
-<section class="imovel section--ink" id="imovel">
-  <div class="imovel__head">
-    <p class="eyebrow eyebrow--light reveal">A pergunta de todo brasileiro</p>
-    <h2 class="h-display h-display--light reveal">Casa para alugar<br />compensa mesmo?</h2>
-    <p class="imovel__sub reveal">
-      O aluguel residencial rende <b><span data-t="aluguelYield"></span>% ao ano</b> em média no
-      Brasil (FipeZap, julho/2026). O CDI paga <b><span data-t="cdi"></span>%</b> sem inquilino,
-      sem IPTU e sem obra. Isso não quer dizer que imóvel é ruim — quer dizer que a conta precisa
-      ser feita. Faça a sua:
+
+<!-- ══════════════════ CALENDÁRIO DE LEILÕES ══════════════════ -->
+<section class="leilao section--ink" id="leiloes">
+  <div class="leilao__head">
+    <p class="eyebrow eyebrow--light reveal">Calendário de leilões</p>
+    <h2 class="h-display h-display--light reveal">Frota nova custa caro.<br />Leilão custa <em>atenção</em>.</h2>
+    <p class="leilao__sub reveal">
+      Cada carro a mais na frota é uma renda a mais por mês. O app acompanha os editais da sua
+      região, avisa quando abrem e — o mais importante — calcula o <b>custo real</b> do lance
+      antes de você levantar a plaquinha.
     </p>
   </div>
 
-  <div class="imovel__box reveal">
-    <div class="imovel__fields">
+  <div class="leilao__box reveal">
+    <div class="imovel__fields leilao__fields">
       <label class="field field--dark">
-        <span class="field__label">Preço do imóvel</span>
+        <span class="field__label">Lance que você pretende dar</span>
         <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="i-preco" type="text" inputmode="numeric" value="450.000" /></span>
+          <input id="l-lance" type="text" inputmode="numeric" value="38.000" /></span>
       </label>
       <label class="field field--dark">
-        <span class="field__label">Aluguel que você receberia</span>
+        <span class="field__label">Valor de tabela do carro</span>
         <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="i-aluguel" type="text" inputmode="numeric" value="2.300" /></span>
-        <span class="field__hint">por mês</span>
+          <input id="l-fipe" type="text" inputmode="numeric" value="62.000" /></span>
+        <span class="field__hint">FIPE ou preço de mercado da região</span>
       </label>
       <label class="field field--dark">
-        <span class="field__label">Condomínio + IPTU que sobram pra você</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="i-custos" type="text" inputmode="numeric" value="250" /></span>
-        <span class="field__hint">por mês, o que o inquilino não paga</span>
+        <span class="field__label">Comissão do leiloeiro</span>
+        <span class="field__wrap"><input id="l-comissao" type="text" inputmode="numeric" value="5" />
+          <span class="field__suffix">%</span></span>
       </label>
       <label class="field field--dark">
-        <span class="field__label">Manutenção e reformas por ano</span>
+        <span class="field__label">Pátio, remoção e documentação</span>
         <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="i-manut" type="text" inputmode="numeric" value="4.000" /></span>
+          <input id="l-taxas" type="text" inputmode="numeric" value="1.200" /></span>
       </label>
       <label class="field field--dark">
-        <span class="field__label">Meses vagos por ano</span>
-        <span class="field__wrap"><input id="i-vago" type="text" inputmode="numeric" value="1" />
+        <span class="field__label">Reparos para rodar</span>
+        <span class="field__wrap"><span class="field__prefix">R$</span>
+          <input id="l-reparos" type="text" inputmode="numeric" value="6.500" /></span>
+        <span class="field__hint">peça, pintura, pneu e revisão</span>
+      </label>
+      <label class="field field--dark">
+        <span class="field__label">Débitos do veículo</span>
+        <span class="field__wrap"><span class="field__prefix">R$</span>
+          <input id="l-debitos" type="text" inputmode="numeric" value="2.400" /></span>
+        <span class="field__hint">IPVA, multas e licenciamento atrasados</span>
+      </label>
+      <label class="field field--dark">
+        <span class="field__label">Aluguel que ele vai gerar</span>
+        <span class="field__wrap"><span class="field__prefix">R$</span>
+          <input id="l-aluguel" type="text" inputmode="numeric" value="2.900" /></span>
+        <span class="field__hint">por mês, já descontando manutenção e ociosidade</span>
+      </label>
+      <label class="field field--dark">
+        <span class="field__label">Meses parado por ano</span>
+        <span class="field__wrap"><input id="l-ocioso" type="text" inputmode="numeric" value="1" />
           <span class="field__suffix">mês/ano</span></span>
       </label>
-      <label class="field field--dark">
-        <span class="field__label">Valorização que você espera</span>
-        <span class="field__wrap"><input id="i-valoriza" type="text" inputmode="numeric" value="5" />
-          <span class="field__suffix">% a.a.</span></span>
-      </label>
     </div>
 
-    <div class="imovel__out">
-      <div class="imovel__verdict" id="i-verdict">
-        <span class="imovel__verdict-tag" id="i-tag">Calculando</span>
-        <p class="imovel__verdict-txt" id="i-txt"></p>
+    <div class="imovel__out leilao__out">
+      <div class="imovel__verdict" id="l-verdict">
+        <span class="imovel__verdict-tag" id="l-tag">Calculando</span>
+        <p class="imovel__verdict-txt" id="l-txt"></p>
       </div>
 
-      <ul class="imovel__lines">
-        <li><span>Aluguel bruto no ano</span><b id="i-bruto">—</b></li>
-        <li><span>Menos vacância, taxas, IPTU e manutenção</span><b id="i-desc">—</b></li>
-        <li><span>Sobra no ano (aluguel líquido)</span><b id="i-liq">—</b></li>
-        <li><span>Retorno só do aluguel</span><b id="i-yield">—</b></li>
-        <li><span>Com a valorização que você espera</span><b id="i-total">—</b></li>
-        <li class="is-ref"><span>O mesmo dinheiro no CDI, líquido de IR</span><b id="i-cdi">—</b></li>
-      </ul>
+      <ul class="imovel__lines" id="l-lines"></ul>
 
       <p class="imovel__foot">
-        Imóvel também é moradia, segurança e herança — coisas que não caem numa planilha.
-        A calculadora não decide por você: ela só impede que a decisão seja tomada no escuro.
+        O lance nunca é o preço. Comissão, pátio, reparo e débito somam entre 20% e 30% do valor —
+        é aí que o "carro barato do leilão" deixa de ser barato.
       </p>
     </div>
   </div>
-</section>
 
-<!-- ══════════════════ MITOS DE RETORNO ══════════════════ -->
-<section class="mitos section--paper" id="mitos">
-  <div class="grid-deco" aria-hidden="true"></div>
-  <div class="mitos__head">
-    <p class="eyebrow reveal">Os maiores mitos de retorno</p>
-    <h2 class="h-display reveal">Parece investimento.<br />É despesa com<br />nome bonito.</h2>
-  </div>
-
-  <div class="mitos__grid">
-    <article class="mito reveal">
-      <p class="card__eyebrow">Mito 01</p>
-      <h3>“Piscina valoriza a casa”</h3>
-      <p class="mito__body">
-        Valoriza — <em>menos</em> do que custou, e só se estiver impecável. Construir sai por
-        R$ 40–80 mil; o mercado devolve algo entre 5% e 8% do valor do imóvel, e ainda cobra
-        R$ 100–500 por mês de manutenção para sempre.
-      </p>
-      <div class="mito__math" id="mito-piscina"></div>
-      <p class="mito__verdict">Compra prazer, não retorno. Se é para usar, ótimo. Para “valorizar”, não.</p>
-    </article>
-
-    <article class="mito reveal">
-      <p class="card__eyebrow">Mito 02</p>
-      <h3>“Imóvel sempre rende mais”</h3>
-      <p class="mito__body">
-        Aluguel residencial: <b><span data-t="aluguelYield"></span>% ao ano</b> bruto no país.
-        Imóvel de 1 quarto chega a <span data-t="aluguelYield1q"></span>%; de 4 quartos cai para
-        <span data-t="aluguelYield4q"></span>%. Quanto maior e mais luxuoso, <b>pior</b> o retorno
-        por real investido.
-      </p>
-      <div class="mito__math" id="mito-imovel"></div>
-      <p class="mito__verdict">Imóvel grande é conforto. Imóvel pequeno é rendimento.</p>
-    </article>
-
-    <article class="mito reveal">
-      <p class="card__eyebrow">Mito 03</p>
-      <h3>“Reforma de luxo eu recupero na venda”</h3>
-      <p class="mito__body">
-        O comprador paga por bairro, metro quadrado e estado de conservação. Porcelanato
-        importado, automação e banheira entram como “gosto pessoal” — e gosto pessoal
-        raramente é reembolsado.
-      </p>
-      <div class="mito__math" id="mito-reforma"></div>
-      <p class="mito__verdict">Reforme para vender mais rápido, não para vender mais caro.</p>
-    </article>
-
-    <article class="mito reveal">
-      <p class="card__eyebrow">Mito 04</p>
-      <h3>“Terreno parado é poupança”</h3>
-      <p class="mito__body">
-        Terreno não paga aluguel, não paga juros e cobra IPTU, capina e muro todo ano.
-        Ele só ganha da renda fixa se valorizar acima do CDI — o que, com juros nesse nível,
-        é uma aposta, não um plano.
-      </p>
-      <div class="mito__math" id="mito-terreno"></div>
-      <p class="mito__verdict">Sem renda no meio do caminho, o tempo trabalha contra.</p>
-    </article>
-  </div>
-</section>
-
-<!-- ══════════════════ LOCAÇÃO, FROTA E RENDA RECORRENTE ══════════════════ -->
-<section class="bene section--paper" id="locacao">
-  <div class="bene__intro">
-    <p class="eyebrow reveal">Locação, frota e renda que entra todo mês</p>
-    <h2 class="h-display reveal">Se o seu dinheiro<br />anda na rua,<br />ele é vigiado aqui.</h2>
-    <p class="loc__sub reveal">
-      Imóvel alugado, carro locado, equipamento cedido, salário e pró-labore: tudo que entra
-      todo mês e tudo que sai da sua mão tem tela própria — com rastreador, foto e contrato.
-    </p>
-  </div>
-
-  <div class="bene__row">
-    <div class="bene__text reveal">
-      <p class="bene__idx">01</p>
-      <h3>Cerca no mapa: o veículo sai da área e o alarme dispara</h3>
-      <p>
-        Você clica no mapa, define o <b>raio em metros</b>, a <b>velocidade máxima</b> permitida
-        ali dentro e marca “avisar quando sair”. Pronto: a partir daí o carro tem coleira.
-        No momento em que ele cruza a linha, o alarme sai no seu WhatsApp com placa, horário,
-        velocidade e o ponto exato da travessia.
-      </p>
-      <ul class="ticks">
-        <li>Quantas cercas você quiser: base, oficina, cidade permitida, região do cliente</li>
-        <li>Raio ajustável no mapa e limite de velocidade por área</li>
-        <li>Alarme de <b>evasão de cerca</b> na hora, para você e para quem você escolher</li>
-        <li>Mapa ao vivo com posição, velocidade e última atualização</li>
-        <li>Playback do trajeto do dia, com paradas e tempo parado</li>
-        <li>Link de rastreio para o cliente acompanhar sozinho</li>
-      </ul>
-      <p class="loc__nota">
-        Detalhe que evita alarme falso: o disparo acontece na <b>travessia da linha</b>, não a cada
-        posição recebida — senão um carro estacionado em cima da cerca alarmaria a noite inteira.
+  <div class="alerta reveal" id="alerta-leilao">
+    <div class="alerta__txt">
+      <p class="eyebrow eyebrow--light">Alerta de novo leilão</p>
+      <h3 class="alerta__h">O edital não espera você lembrar de olhar</h3>
+      <p class="alerta__p">
+        Escolha o que te interessa e o app avisa no WhatsApp assim que o edital sai — com o lote,
+        a data da praça, o prazo de visitação e o seu teto de lance já calculado. Leilão perdido
+        quase sempre é leilão que ninguém viu abrir.
       </p>
     </div>
-    <div class="bene__viz bene__viz--tall reveal" data-viz="mapa" aria-hidden="true"></div>
-  </div>
 
-  <!-- alarmes de cerca -->
-  <div class="alarmes reveal">
-    <p class="eyebrow">Alarmes que a cerca dispara</p>
-    <div class="alarmes__grid">
-      <span><b>Saiu da área</b>Cruzou a linha da cerca — placa, hora, velocidade e local</span>
-      <span><b>Entrou em zona proibida</b>Região que você marcou como fora dos limites do contrato</span>
-      <span><b>Correu dentro da área</b>Passou da velocidade máxima definida para aquela cerca</span>
-      <span><b>Parado demais</b>Tempo parado acima do combinado, fora de base</span>
-      <span><b>Rodando fora de horário</b>Ignição em madrugada, domingo ou fora do expediente</span>
-      <span><b>Sem sinal</b>Rastreador mudo há mais tempo que o normal</span>
-      <span><b>Voltou para a base</b>Confirmação de retorno para liberar o checklist</span>
-      <span><b>Km acima do contratado</b>Franquia estourada — cobrança de excedente calculada</span>
-    </div>
-    <p class="alarmes__foot">
-      Cada alarme vira mensagem no WhatsApp e registro no histórico do veículo e do cliente —
-      então na hora da conversa difícil você tem data, hora e mapa, não impressão.
-    </p>
-  </div>
+    <div class="alerta__form">
+      <div class="alerta__chips" id="alerta-chips">
+        <button type="button" class="chip is-on" data-chip="Carros de passeio">Carros de passeio</button>
+        <button type="button" class="chip" data-chip="Motos">Motos</button>
+        <button type="button" class="chip is-on" data-chip="Utilitários e caminhonetes">Utilitários e caminhonetes</button>
+        <button type="button" class="chip" data-chip="Caminhões e máquinas">Caminhões e máquinas</button>
+        <button type="button" class="chip" data-chip="Imóveis">Imóveis</button>
+        <button type="button" class="chip" data-chip="Sucata e recuperáveis">Sucata e recuperáveis</button>
+      </div>
 
-  <div class="bene__row bene__row--flip">
-    <div class="bene__text reveal">
-      <p class="bene__idx">02</p>
-      <h3>Veículo cadastrado, checklist com foto e contrato no mesmo lugar</h3>
-      <p>
-        Cada veículo tem ficha, documento, manutenção e histórico. Na entrega e na devolução,
-        o checklist com <b>fotos de cada ângulo</b> fecha a discussão de avaria — e o contrato
-        de locação sai preenchido com o veículo, o cliente, o prazo e a caução.
+      <div class="frow">
+        <label class="field field--dark">
+          <span class="field__label">Sua região</span>
+          <span class="field__wrap"><input id="al-regiao" type="text" placeholder="Cidade ou estado" /></span>
+        </label>
+        <label class="field field--dark">
+          <span class="field__label">Até quanto você arremata</span>
+          <span class="field__wrap"><span class="field__prefix">R$</span>
+            <input id="al-teto" type="text" inputmode="numeric" value="40.000" /></span>
+        </label>
+      </div>
+
+      <a class="btn btn--lime btn--block" id="al-cta" href="#contato">Quero receber esses alertas</a>
+      <p class="alerta__nota">
+        Abre o WhatsApp com o pedido montado — você só confere e envia. Enquanto o monitoramento
+        automático não cobre a sua região, o aviso é feito por nós, na mão.
       </p>
-      <ul class="ticks">
-        <li>Cadastro completo: placa, chassi, ano, seguro, IPVA e revisão</li>
-        <li>Checklist de saída e retorno com foto, km, combustível e assinatura</li>
-        <li>Avaria registrada com foto, data e responsável</li>
-        <li>Contrato de locação gerado do cadastro, com caução e multa já calculadas</li>
-        <li>Reserva com bloqueio de agenda: dois clientes nunca pegam o mesmo carro</li>
-      </ul>
     </div>
-    <div class="bene__viz reveal" data-viz="checklist" aria-hidden="true"></div>
   </div>
 
-  <div class="bene__row">
-    <div class="bene__text reveal">
-      <p class="bene__idx">03</p>
-      <h3>Meus aluguéis e o que entra fixo todo mês</h3>
-      <p>
-        Aluguel de imóvel, locação de veículo, salário, pró-labore, comissão e assinatura:
-        o app sabe o dia de cada entrada, avisa quem não pagou e mostra quanto da sua vida
-        já está paga antes de você trabalhar.
-      </p>
-      <ul class="ticks">
-        <li>Meus aluguéis: inquilino, valor, vencimento, reajuste e fim de contrato</li>
-        <li>Cobrança automática no WhatsApp quando o aluguel atrasa</li>
-        <li>Salário e renda fixa lançados sozinhos, todo mês</li>
-        <li>Renda recorrente x custo de vida: quantos dias do mês já estão cobertos</li>
-        <li>Reajuste por IPCA ou IGP-M calculado na data certa</li>
-      </ul>
-    </div>
-    <div class="bene__viz reveal" data-viz="recorrente" aria-hidden="true"></div>
-  </div>
-</section>
-
-<!-- ══════════════════ SUCESSÃO E DOCUMENTOS ══════════════════ -->
-<section class="suc section--ink" id="documentos">
-  <div class="suc__head">
-    <p class="eyebrow eyebrow--light reveal">Testamento, procuração e contratos</p>
-    <h2 class="h-display h-display--light reveal">
-      Construir dá trabalho.<br />
-      <span class="muted-light">Perder na papelada<br />é rápido.</span>
-    </h2>
-    <p class="suc__sub reveal">
-      Sem testamento, sem procuração e sem contrato assinado, quem paga a conta é quem fica:
-      imposto de até <b><span data-t="itcmdMax"></span>%</b>, honorários de advogado, cartório
-      e anos de processo. O Reis Factory guarda, organiza e prepara esses papéis — e mostra,
-      em reais, quanto custa não fazer nada.
-    </p>
-  </div>
-
-  <!-- calculadora de inventário -->
-  <div class="suc__calc reveal">
-    <div class="imovel__fields suc__fields">
-      <label class="field field--dark">
-        <span class="field__label">Patrimônio total da família</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="h-patrimonio" type="text" inputmode="numeric" value="900.000" /></span>
-        <span class="field__hint">imóveis, veículos, aplicações e saldo em conta</span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Alíquota de ITCMD do seu estado</span>
-        <span class="field__wrap"><input id="h-itcmd" type="text" inputmode="numeric" value="4" />
-          <span class="field__suffix">%</span></span>
-        <span class="field__hint">progressiva de 2% a 8% desde a LC 227/2026</span>
-      </label>
-    </div>
-
-    <div class="suc__cenarios">
-      <article class="cen cen--good">
-        <p class="cen__tag">Com tudo organizado</p>
-        <p class="cen__sub">Inventário extrajudicial, herdeiros de acordo, documentos em ordem</p>
-        <ul class="imovel__lines" id="cen-org"></ul>
-        <p class="cen__prazo">Prazo típico: <b>semanas</b></p>
-      </article>
-
-      <article class="cen cen--bad">
-        <p class="cen__tag">Sem organizar nada</p>
-        <p class="cen__sub">Inventário judicial, prazo perdido, herdeiro discordando</p>
-        <ul class="imovel__lines" id="cen-caos"></ul>
-        <p class="cen__prazo">Prazo típico: <b>2 a 5 anos</b> com o patrimônio travado</p>
-      </article>
-    </div>
-
-    <p class="suc__delta" id="suc-delta"></p>
-  </div>
-
-  <!-- três frentes -->
-  <div class="suc__grid">
-    <article class="suc__card reveal">
-      <p class="card__eyebrow">01 · Testamento</p>
-      <h3>Quem fica com o quê, escrito</h3>
-      <p>
-        Você monta o inventário dos seus bens no app, define destino de cada um e sai com a
-        <b>minuta pronta</b> e a lista de documentos para levar ao tabelião ou ao advogado.
-      </p>
-      <ul class="ticks ticks--light">
-        <li>Mapa de bens, dívidas e beneficiários</li>
-        <li>Simulação da parte disponível (50%) e da legítima dos herdeiros</li>
-        <li>Roteiro das três formas válidas: público, cerrado e particular</li>
-        <li>Alerta de revisão a cada mudança grande de patrimônio</li>
-      </ul>
-    </article>
-
-    <article class="suc__card reveal">
-      <p class="card__eyebrow">02 · Procuração</p>
-      <h3>Alguém pode resolver por você</h3>
-      <p>
-        Procuração gerada com os poderes que <em>você</em> escolhe — e o aviso de quando ela
-        precisa ser pública (venda de imóvel, por exemplo) em vez de particular.
-      </p>
-      <ul class="ticks ticks--light">
-        <li>Modelos: geral, específica, bancária, venda de bem e representação em empresa</li>
-        <li>Poderes item por item, com prazo de validade e substabelecimento</li>
-        <li>Controle de quem tem procuração sua e até quando</li>
-        <li>Diretivas de vontade e representação em caso de incapacidade</li>
-      </ul>
-    </article>
-
-    <article class="suc__card reveal">
-      <p class="card__eyebrow">03 · Contratos</p>
-      <h3>Modelo pronto, preenchido com seus dados</h3>
-      <p>
-        Biblioteca de contratos que o app preenche com o cadastro que você já tem — cliente,
-        imóvel, valor, prazo, juros — e guarda assinado no cofre, com vencimento vigiado.
-      </p>
-      <ul class="ticks ticks--light">
-        <li>Preenchimento automático a partir do cadastro e do imóvel</li>
-        <li>Cálculo de multa, juros e correção já na cláusula</li>
-        <li>Aviso de renovação, reajuste e fim de vigência</li>
-        <li>Cofre com busca, versão e histórico de assinatura</li>
-      </ul>
-    </article>
-  </div>
-
-  <!-- biblioteca de modelos -->
-  <div class="docs reveal">
-    <p class="eyebrow eyebrow--light">Biblioteca de modelos</p>
+  <div class="leilao__fontes reveal">
+    <p class="eyebrow eyebrow--light">O radar de editais</p>
     <div class="docs__grid">
-      <span>Locação residencial</span>
-      <span>Locação comercial</span>
-      <span>Compra e venda de imóvel</span>
-      <span>Compra e venda de veículo</span>
-      <span>Prestação de serviços</span>
-      <span>Empréstimo entre pessoas</span>
-      <span>Confissão de dívida</span>
-      <span>Comodato</span>
-      <span>Distrato e rescisão</span>
-      <span>Recibo e quitação</span>
-      <span>Procuração</span>
-      <span>Minuta de testamento</span>
-      <span>Contrato de sociedade</span>
-      <span>Termo de acordo</span>
-      <span>Cessão de direitos</span>
-      <span>Declaração de união estável</span>
+      <span>Pátios de Detran e prefeituras</span>
+      <span>Seguradoras (sinistro e recuperáveis)</span>
+      <span>Bancos e financeiras (retomados)</span>
+      <span>Leilão judicial</span>
+      <span>Frotas de locadoras e empresas</span>
+      <span>Órgãos públicos e autarquias</span>
+      <span>Leiloeiros oficiais da região</span>
+      <span>Receita Federal (mercadoria e veículo)</span>
     </div>
-
     <p class="docs__legal">
-      <b>Importante:</b> o app organiza, calcula e prepara a minuta — ele não substitui advogado
-      nem tabelião. Testamento e procuração têm forma exigida por lei (e inventário exige advogado,
-      art. 610, §2º do CPC). A gente deixa tudo pronto para a assinatura, e diz na hora quando o
-      caso precisa de um profissional.
+      O app monitora essas fontes, guarda o edital, o lote e a data no seu calendário e te avisa
+      com antecedência — com o teto de lance que <b>você</b> definiu para não passar do ponto no
+      calor do leilão. Depois da arrematação, o veículo já entra na frota com checklist,
+      documentos e contrato de locação prontos.
     </p>
   </div>
 </section>
@@ -728,117 +573,304 @@
   </div>
 </section>
 
-<!-- ══════════════════ CALENDÁRIO DE LEILÕES ══════════════════ -->
-<section class="leilao section--ink" id="leiloes">
-  <div class="leilao__head">
-    <p class="eyebrow eyebrow--light reveal">Calendário de leilões</p>
-    <h2 class="h-display h-display--light reveal">Frota nova custa caro.<br />Leilão custa <em>atenção</em>.</h2>
-    <p class="leilao__sub reveal">
-      Cada carro a mais na frota é uma renda a mais por mês. O app acompanha os editais da sua
-      região, avisa quando abrem e — o mais importante — calcula o <b>custo real</b> do lance
-      antes de você levantar a plaquinha.
+<!-- ══════════════════ LOCAÇÃO, FROTA E RENDA RECORRENTE ══════════════════ -->
+<section class="bene section--paper" id="locacao">
+  <div class="bene__intro">
+    <p class="eyebrow reveal">Locação, frota e renda que entra todo mês</p>
+    <h2 class="h-display reveal">Se o seu dinheiro<br />anda na rua,<br />ele é vigiado aqui.</h2>
+    <p class="loc__sub reveal">
+      Imóvel alugado, carro locado, equipamento cedido, salário e pró-labore: tudo que entra
+      todo mês e tudo que sai da sua mão tem tela própria — com rastreador, foto e contrato.
     </p>
   </div>
 
-  <div class="leilao__box reveal">
-    <div class="imovel__fields leilao__fields">
-      <label class="field field--dark">
-        <span class="field__label">Lance que você pretende dar</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-lance" type="text" inputmode="numeric" value="38.000" /></span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Valor de tabela do carro</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-fipe" type="text" inputmode="numeric" value="62.000" /></span>
-        <span class="field__hint">FIPE ou preço de mercado da região</span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Comissão do leiloeiro</span>
-        <span class="field__wrap"><input id="l-comissao" type="text" inputmode="numeric" value="5" />
-          <span class="field__suffix">%</span></span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Pátio, remoção e documentação</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-taxas" type="text" inputmode="numeric" value="1.200" /></span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Reparos para rodar</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-reparos" type="text" inputmode="numeric" value="6.500" /></span>
-        <span class="field__hint">peça, pintura, pneu e revisão</span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Débitos do veículo</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-debitos" type="text" inputmode="numeric" value="2.400" /></span>
-        <span class="field__hint">IPVA, multas e licenciamento atrasados</span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Aluguel que ele vai gerar</span>
-        <span class="field__wrap"><span class="field__prefix">R$</span>
-          <input id="l-aluguel" type="text" inputmode="numeric" value="2.900" /></span>
-        <span class="field__hint">por mês, já descontando manutenção e ociosidade</span>
-      </label>
-      <label class="field field--dark">
-        <span class="field__label">Meses parado por ano</span>
-        <span class="field__wrap"><input id="l-ocioso" type="text" inputmode="numeric" value="1" />
-          <span class="field__suffix">mês/ano</span></span>
-      </label>
-    </div>
-
-    <div class="imovel__out leilao__out">
-      <div class="imovel__verdict" id="l-verdict">
-        <span class="imovel__verdict-tag" id="l-tag">Calculando</span>
-        <p class="imovel__verdict-txt" id="l-txt"></p>
-      </div>
-
-      <ul class="imovel__lines" id="l-lines"></ul>
-
-      <p class="imovel__foot">
-        O lance nunca é o preço. Comissão, pátio, reparo e débito somam entre 20% e 30% do valor —
-        é aí que o "carro barato do leilão" deixa de ser barato.
+  <div class="bene__row">
+    <div class="bene__text reveal">
+      <p class="bene__idx">01</p>
+      <h3>Cerca no mapa: o veículo sai da área e o alarme dispara</h3>
+      <p>
+        Você clica no mapa, define o <b>raio em metros</b>, a <b>velocidade máxima</b> permitida
+        ali dentro e marca “avisar quando sair”. Pronto: a partir daí o carro tem coleira.
+        No momento em que ele cruza a linha, o alarme sai no seu WhatsApp com placa, horário,
+        velocidade e o ponto exato da travessia.
+      </p>
+      <ul class="ticks">
+        <li>Quantas cercas você quiser: base, oficina, cidade permitida, região do cliente</li>
+        <li>Raio ajustável no mapa e limite de velocidade por área</li>
+        <li>Alarme de <b>evasão de cerca</b> na hora, para você e para quem você escolher</li>
+        <li>Mapa ao vivo com posição, velocidade e última atualização</li>
+        <li>Playback do trajeto do dia, com paradas e tempo parado</li>
+        <li>Link de rastreio para o cliente acompanhar sozinho</li>
+      </ul>
+      <p class="loc__nota">
+        Detalhe que evita alarme falso: o disparo acontece na <b>travessia da linha</b>, não a cada
+        posição recebida — senão um carro estacionado em cima da cerca alarmaria a noite inteira.
       </p>
     </div>
+    <div class="bene__viz bene__viz--tall reveal" data-viz="mapa" aria-hidden="true"></div>
   </div>
 
-  <div class="leilao__fontes reveal">
-    <p class="eyebrow eyebrow--light">O radar de editais</p>
-    <div class="docs__grid">
-      <span>Pátios de Detran e prefeituras</span>
-      <span>Seguradoras (sinistro e recuperáveis)</span>
-      <span>Bancos e financeiras (retomados)</span>
-      <span>Leilão judicial</span>
-      <span>Frotas de locadoras e empresas</span>
-      <span>Órgãos públicos e autarquias</span>
-      <span>Leiloeiros oficiais da região</span>
-      <span>Receita Federal (mercadoria e veículo)</span>
+  <!-- alarmes de cerca -->
+  <div class="alarmes reveal">
+    <p class="eyebrow">Alarmes que a cerca dispara</p>
+    <div class="alarmes__grid">
+      <span><b>Saiu da área</b>Cruzou a linha da cerca — placa, hora, velocidade e local</span>
+      <span><b>Entrou em zona proibida</b>Região que você marcou como fora dos limites do contrato</span>
+      <span><b>Correu dentro da área</b>Passou da velocidade máxima definida para aquela cerca</span>
+      <span><b>Parado demais</b>Tempo parado acima do combinado, fora de base</span>
+      <span><b>Rodando fora de horário</b>Ignição em madrugada, domingo ou fora do expediente</span>
+      <span><b>Sem sinal</b>Rastreador mudo há mais tempo que o normal</span>
+      <span><b>Voltou para a base</b>Confirmação de retorno para liberar o checklist</span>
+      <span><b>Km acima do contratado</b>Franquia estourada — cobrança de excedente calculada</span>
     </div>
+    <p class="alarmes__foot">
+      Cada alarme vira mensagem no WhatsApp e registro no histórico do veículo e do cliente —
+      então na hora da conversa difícil você tem data, hora e mapa, não impressão.
+    </p>
+  </div>
+
+  <div class="bene__row bene__row--flip">
+    <div class="bene__text reveal">
+      <p class="bene__idx">02</p>
+      <h3>Veículo cadastrado, checklist com foto e contrato no mesmo lugar</h3>
+      <p>
+        Cada veículo tem ficha, documento, manutenção e histórico. Na entrega e na devolução,
+        o checklist com <b>fotos de cada ângulo</b> fecha a discussão de avaria — e o contrato
+        de locação sai preenchido com o veículo, o cliente, o prazo e a caução.
+      </p>
+      <ul class="ticks">
+        <li>Cadastro completo: placa, chassi, ano, seguro, IPVA e revisão</li>
+        <li>Checklist de saída e retorno com foto, km, combustível e assinatura</li>
+        <li>Avaria registrada com foto, data e responsável</li>
+        <li>Contrato de locação gerado do cadastro, com caução e multa já calculadas</li>
+        <li>Reserva com bloqueio de agenda: dois clientes nunca pegam o mesmo carro</li>
+      </ul>
+    </div>
+    <div class="bene__viz reveal" data-viz="checklist" aria-hidden="true"></div>
+  </div>
+
+  <div class="bene__row">
+    <div class="bene__text reveal">
+      <p class="bene__idx">03</p>
+      <h3>Meus aluguéis e o que entra fixo todo mês</h3>
+      <p>
+        Aluguel de imóvel, locação de veículo, salário, pró-labore, comissão e assinatura:
+        o app sabe o dia de cada entrada, avisa quem não pagou e mostra quanto da sua vida
+        já está paga antes de você trabalhar.
+      </p>
+      <ul class="ticks">
+        <li>Meus aluguéis: inquilino, valor, vencimento, reajuste e fim de contrato</li>
+        <li>Cobrança automática no WhatsApp quando o aluguel atrasa</li>
+        <li>Salário e renda fixa lançados sozinhos, todo mês</li>
+        <li>Renda recorrente x custo de vida: quantos dias do mês já estão cobertos</li>
+        <li>Reajuste por IPCA ou IGP-M calculado na data certa</li>
+      </ul>
+    </div>
+    <div class="bene__viz reveal" data-viz="recorrente" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ══════════════════ SUCESSÃO E DOCUMENTOS ══════════════════ -->
+<section class="suc section--ink" id="documentos">
+  <div class="suc__head">
+    <p class="eyebrow eyebrow--light reveal">Contratos, recibos e o que fica escrito</p>
+    <h2 class="h-display h-display--light reveal">
+      No aperto de mão<br />
+      <span class="muted-light">todo mundo lembra<br />diferente.</span>
+    </h2>
+    <p class="suc__sub reveal">
+      Emprestou sem contrato, alugou o carro sem termo de entrega, arrematou e não guardou o
+      recibo: nada disso vira dívida cobrável. O app monta o documento <b>com os números que você
+      acabou de simular</b> — mútuo, confissão de dívida, locação, comodato, recibo de quitação —
+      e guarda tudo junto do cliente. E, mais na frente, o que você construiu também precisa de
+      papel: aqui embaixo está a conta de deixar isso para depois.
+    </p>
+  </div>
+
+  <!-- calculadora de inventário -->
+  <div class="suc__calc reveal">
+    <div class="imovel__fields suc__fields">
+      <label class="field field--dark">
+        <span class="field__label">Patrimônio total da família</span>
+        <span class="field__wrap"><span class="field__prefix">R$</span>
+          <input id="h-patrimonio" type="text" inputmode="numeric" value="900.000" /></span>
+        <span class="field__hint">imóveis, veículos, aplicações e saldo em conta</span>
+      </label>
+      <label class="field field--dark">
+        <span class="field__label">Alíquota de ITCMD do seu estado</span>
+        <span class="field__wrap"><input id="h-itcmd" type="text" inputmode="numeric" value="4" />
+          <span class="field__suffix">%</span></span>
+        <span class="field__hint">progressiva de 2% a 8% desde a LC 227/2026</span>
+      </label>
+    </div>
+
+    <div class="suc__cenarios">
+      <article class="cen cen--good">
+        <p class="cen__tag">Com tudo organizado</p>
+        <p class="cen__sub">Inventário extrajudicial, herdeiros de acordo, documentos em ordem</p>
+        <ul class="imovel__lines" id="cen-org"></ul>
+        <p class="cen__prazo">Prazo típico: <b>semanas</b></p>
+      </article>
+
+      <article class="cen cen--bad">
+        <p class="cen__tag">Sem organizar nada</p>
+        <p class="cen__sub">Inventário judicial, prazo perdido, herdeiro discordando</p>
+        <ul class="imovel__lines" id="cen-caos"></ul>
+        <p class="cen__prazo">Prazo típico: <b>2 a 5 anos</b> com o patrimônio travado</p>
+      </article>
+    </div>
+
+    <p class="suc__delta" id="suc-delta"></p>
+  </div>
+
+  <!-- três frentes -->
+  <div class="suc__grid">
+    <article class="suc__card reveal">
+      <p class="card__eyebrow">01 · Testamento</p>
+      <h3>Quem fica com o quê, escrito</h3>
+      <p>
+        Você monta o inventário dos seus bens no app, define destino de cada um e sai com a
+        <b>minuta pronta</b> e a lista de documentos para levar ao tabelião ou ao advogado.
+      </p>
+      <ul class="ticks ticks--light">
+        <li>Mapa de bens, dívidas e beneficiários</li>
+        <li>Simulação da parte disponível (50%) e da legítima dos herdeiros</li>
+        <li>Roteiro das três formas válidas: público, cerrado e particular</li>
+        <li>Alerta de revisão a cada mudança grande de patrimônio</li>
+      </ul>
+    </article>
+
+    <article class="suc__card reveal">
+      <p class="card__eyebrow">02 · Procuração</p>
+      <h3>Alguém pode resolver por você</h3>
+      <p>
+        Procuração gerada com os poderes que <em>você</em> escolhe — e o aviso de quando ela
+        precisa ser pública (venda de imóvel, por exemplo) em vez de particular.
+      </p>
+      <ul class="ticks ticks--light">
+        <li>Modelos: geral, específica, bancária, venda de bem e representação em empresa</li>
+        <li>Poderes item por item, com prazo de validade e substabelecimento</li>
+        <li>Controle de quem tem procuração sua e até quando</li>
+        <li>Diretivas de vontade e representação em caso de incapacidade</li>
+      </ul>
+    </article>
+
+    <article class="suc__card reveal">
+      <p class="card__eyebrow">03 · Contratos</p>
+      <h3>Modelo pronto, preenchido com seus dados</h3>
+      <p>
+        Biblioteca de contratos que o app preenche com o cadastro que você já tem — cliente,
+        imóvel, valor, prazo, juros — e guarda assinado no cofre, com vencimento vigiado.
+      </p>
+      <ul class="ticks ticks--light">
+        <li>Preenchimento automático a partir do cadastro e do imóvel</li>
+        <li>Cálculo de multa, juros e correção já na cláusula</li>
+        <li>Aviso de renovação, reajuste e fim de vigência</li>
+        <li>Cofre com busca, versão e histórico de assinatura</li>
+      </ul>
+    </article>
+  </div>
+
+  <!-- biblioteca de modelos -->
+  <div class="docs reveal">
+    <p class="eyebrow eyebrow--light">Biblioteca de modelos</p>
+    <div class="docs__grid">
+      <span>Empréstimo (mútuo)</span>
+      <span>Confissão de dívida</span>
+      <span>Nota promissória</span>
+      <span>Locação de veículo</span>
+      <span>Termo de entrega e devolução</span>
+      <span>Compra e venda de veículo</span>
+      <span>Comodato</span>
+      <span>Prestação de serviços</span>
+      <span>Locação residencial</span>
+      <span>Locação comercial</span>
+      <span>Distrato e rescisão</span>
+      <span>Recibo e quitação</span>
+      <span>Procuração</span>
+      <span>Minuta de testamento</span>
+      <span>Contrato de sociedade</span>
+      <span>Termo de acordo</span>
+      <span>Cessão de direitos</span>
+      <span>Declaração de união estável</span>
+    </div>
+
     <p class="docs__legal">
-      O app monitora essas fontes, guarda o edital, o lote e a data no seu calendário e te avisa
-      com antecedência — com o teto de lance que <b>você</b> definiu para não passar do ponto no
-      calor do leilão. Depois da arrematação, o veículo já entra na frota com checklist,
-      documentos e contrato de locação prontos.
+      <b>Importante:</b> o app organiza, calcula e prepara a minuta — ele não substitui advogado
+      nem tabelião. Testamento e procuração têm forma exigida por lei (e inventário exige advogado,
+      art. 610, §2º do CPC). A gente deixa tudo pronto para a assinatura, e diz na hora quando o
+      caso precisa de um profissional.
     </p>
   </div>
 </section>
 
+<!-- ══════════════════ A RÉGUA: BOM OU MAU NEGÓCIO ══════════════════ -->
+<section class="rates section--ink" id="regua">
+  <div class="rates__head">
+    <p class="eyebrow eyebrow--light reveal">A régua de todo negócio desta página</p>
+    <h2 class="h-display h-display--light reveal">
+      Se render menos que<br />
+      <span class="muted-light">o banco, não é negócio.</span>
+    </h2>
+    <p class="rates__sub reveal">
+      Emprestar, alugar o carro, arrematar no leilão: todo negócio tem que pagar mais do que o
+      seu dinheiro pagaria sozinho, parado num CDB — e ainda sobrar prêmio pelo risco e pelo
+      trabalho. Este é o piso contra o qual as contas do site são medidas.
+    </p>
+  </div>
+
+  <div class="parado reveal" id="parado">
+    <div class="parado__ask">
+      <label class="parado__label" for="p-valor">Quanto está parado no seu caixa hoje?</label>
+      <div class="parado__field">
+        <span>R$</span>
+        <input id="p-valor" inputmode="numeric" value="10.000" aria-describedby="parado-nota" />
+      </div>
+      <p class="parado__nota" id="parado-nota">
+        Fica só no seu navegador. Comparamos com um CDB de <b><span id="p-cdi-pct">100</span>% do CDI</b>,
+        já descontando o imposto de renda da faixa de até 180 dias.
+      </p>
+    </div>
+
+    <div class="parado__out">
+      <p class="parado__eyebrow">Deixado na mesa</p>
+      <div class="parado__nums">
+        <div><b id="p-dia">—</b><span>por dia</span></div>
+        <div><b id="p-mes">—</b><span>por mês</span></div>
+        <div><b id="p-ano">—</b><span>em 12 meses</span></div>
+      </div>
+      <p class="parado__live">
+        Só hoje, até agora:
+        <b id="p-live">R$ 0,00</b>
+      </p>
+
+      <a class="btn btn--lime parado__cta" id="p-cta" href="#emprestimo">
+        Ver quanto esse dinheiro renderia emprestado
+      </a>
+    </div>
+  </div>
+
+  <div class="rates__grid" id="rates-grid"></div>
+
+  <p class="rates__src reveal" id="rates-src"></p>
+</section>
+
+
 <!-- ══════════════════ PARA QUEM É ══════════════════ -->
 <section class="segments section--paper">
-  <h2 class="segments__title reveal">Para quem trabalha,<br />recebe e quer que sobre</h2>
+  <h2 class="segments__title reveal">Para quem põe o<br />próprio dinheiro na rua</h2>
 
   <div class="segments__wall reveal">
-    <span>Assalariado</span>
-    <span>Autônomo</span>
-    <span>Dono de empresa</span>
-    <span>Família</span>
-    <span>Primeiro investimento</span>
-    <span>Quem tem imóvel</span>
-    <span>Quem financia</span>
-    <span>Quem vive de comissão</span>
-    <span>Aposentadoria</span>
-    <span>Herança e inventário</span>
+    <span>Quem empresta dinheiro</span>
+    <span>Locadora de veículos</span>
+    <span>Quem aluga o carro parado</span>
+    <span>Comprador de leilão</span>
+    <span>Dono de frota</span>
+    <span>Quem vende parcelado</span>
+    <span>Quem aluga imóvel</span>
+    <span>Prestador que fatura a prazo</span>
+    <span>Pequena transportadora</span>
+    <span>Quem financia cliente</span>
   </div>
 
   <div class="segments__proof reveal">
@@ -846,8 +878,8 @@
     <p class="segments__proof-txt">
       Antes de virar produto, o Reis Factory já controlava o caixa, a cobrança e a frota das
       nossas próprias operações — <b>VerdePack</b>, <b>Dos Reis</b> e <b>Torres Locações</b>.
-      A parte de investimento nasceu da mesma pergunta que todo dono faz no fim do mês:
-      <b>e agora, onde eu ponho isso?</b>
+      As contas deste site são as que a gente faz de verdade antes de emprestar, de alugar um
+      veículo ou de levantar a plaquinha no leilão: <b>quanto cobrar, e se fecha</b>.
     </p>
   </div>
 </section>
@@ -1055,21 +1087,21 @@
   <div class="steps__row">
     <article class="step reveal">
       <p class="card__eyebrow">01 · Primeiro passo</p>
-      <h3>“Tenho dinheiro parado”</h3>
-      <p>Liga o painel de taxas e o comparador. Em 10 minutos você sabe quanto está deixando na mesa e para onde levar.</p>
-      <a class="btn btn--ink btn--block" href="#simulador">Simular agora</a>
+      <h3>“Vou emprestar pra alguém”</h3>
+      <p>Roda a conta: quanto cobrar, o teto que a lei permite, quanto sobra se um não pagar — e sai com o contrato pronto.</p>
+      <a class="btn btn--ink btn--block" href="#emprestimo">Calcular agora</a>
     </article>
     <article class="step reveal">
-      <p class="card__eyebrow">02 · Vida organizada</p>
-      <h3>“Quero enxergar tudo”</h3>
-      <p>Contas, cartões, metas e patrimônio no mesmo lugar, com alerta quando algo sai da linha.</p>
-      <a class="btn btn--ink btn--block" href="#plataforma">Ver o app</a>
+      <p class="card__eyebrow">02 · Colocar preço</p>
+      <h3>“Quanto cobro pelo carro?”</h3>
+      <p>Depreciação, IPVA, seguro, manutenção e dia parado somados: a diária mínima para o carro se pagar aparece na tela.</p>
+      <a class="btn btn--ink btn--block" href="#precificar">Precificar</a>
     </article>
     <article class="step reveal">
       <p class="card__eyebrow">03 · Decisão grande</p>
-      <h3>“Vou comprar um imóvel”</h3>
-      <p>Simulação com custo real, vacância, valorização e comparação com renda fixa antes de assinar qualquer coisa.</p>
-      <a class="btn btn--ink btn--block" href="#imovel">Fazer a conta</a>
+      <h3>“Vale a pena esse lance?”</h3>
+      <p>Lance mais comissão, pátio, reparo e débitos: o custo real, o payback em meses e o retorno comparado ao CDI.</p>
+      <a class="btn btn--ink btn--block" href="#leiloes">Fazer a conta</a>
     </article>
   </div>
 </section>
@@ -1144,26 +1176,26 @@
 <section class="faq section--paper" id="faq">
   <div class="faq__left">
     <h2 class="faq__title reveal">Dúvidas</h2>
-    <p class="faq__note reveal">O que todo mundo pergunta antes de mexer no próprio dinheiro.</p>
+    <p class="faq__note reveal">O que todo mundo pergunta antes de botar o dinheiro na rua.</p>
   </div>
 
   <div class="faq__right">
     <div class="faq__tabs" role="tablist">
       <button class="faq__tab is-active" data-ftab="produto">O app</button>
-      <button class="faq__tab" data-ftab="invest">Investimento</button>
-      <button class="faq__tab" data-ftab="imoveis">Imóveis e locação</button>
+      <button class="faq__tab" data-ftab="invest">Emprestar e juros</button>
+      <button class="faq__tab" data-ftab="imoveis">Carro e leilão</button>
       <button class="faq__tab" data-ftab="docs">Documentos</button>
       <button class="faq__tab" data-ftab="dados">Segurança</button>
     </div>
 
     <div class="faq__group is-active" data-fgroup="produto">
       <details><summary>O que o Reis Factory faz, em uma frase?<i></i></summary>
-        <p>Mostra todo o seu dinheiro num lugar e diz o que fazer com a sobra — com a conta feita,
-        não com palpite.</p></details>
-      <details><summary>Ele investe pra mim?<i></i></summary>
-        <p>Não. Ele não é corretora e não executa ordem nenhuma: mostra a comparação, o imposto e
-        o resultado líquido, e você decide onde aplicar. Sem comissão embutida, sem produto
-        empurrado.</p></details>
+        <p>Calcula quanto cobrar, monta o contrato, cobra a parcela e mostra se o negócio fecha —
+        para quem empresta, aluga e arremata com o próprio dinheiro.</p></details>
+      <details><summary>Preciso entender de finanças para usar?<i></i></summary>
+        <p>Não. Você digita o valor, o prazo e o que pretende cobrar; o app faz o resto e responde
+        em português: cabe no teto legal, rende mais ou menos que o banco, aguenta quantos
+        calotes.</p></details>
       <details><summary>Isso é consultoria de investimento?<i></i></summary>
         <p>Não. É ferramenta de cálculo e organização com conteúdo educativo. Recomendação
         personalizada de investimento é atividade regulada — quando o caso pedir, a gente diz
@@ -1174,33 +1206,44 @@
     </div>
 
     <div class="faq__group" data-fgroup="invest">
+      <details><summary>Quanto eu posso cobrar de juros?<i></i></summary>
+        <p>Se tem pessoa física na operação, vale o teto da Lei da Usura: no máximo o dobro da
+        taxa legal, que desde a Lei 14.905/2024 é a <b>Selic menos o IPCA</b>. Com os números de
+        hoje isso dá cerca de <b>19% ao ano</b>, ou <b>1,47% ao mês</b>. Entre pessoas jurídicas
+        não financeiras não há mais teto — a mesma lei tirou essas operações do limite.</p></details>
+      <details><summary>E se eu cobrar mais que isso?<i></i></summary>
+        <p>A cláusula de juros vira contestável e o excesso pode ser anulado — na prática, você
+        cobra menos do que combinou e ainda corre o risco de a operação ser tratada como
+        agiotagem (Lei 1.521/51, art. 4º). Por isso o teto aparece na tela antes de você falar um
+        número, e o app avisa quando a taxa passa dele.</p></details>
+      <details><summary>Emprestar rende mais que deixar no banco?<i></i></summary>
+        <p>Nem sempre — e é por isso que a conta existe. O app compara a taxa efetiva do seu
+        empréstimo com o CDB líquido do mesmo prazo e mostra quantos calotes a operação aguenta
+        antes de virar prejuízo. Emprestar só compensa com prêmio de risco de verdade.</p></details>
       <details><summary>De onde vêm as taxas do site?<i></i></summary>
         <p>Selic e CDI do Banco Central (Copom de 05/08/2026), IPCA do IBGE e yield de aluguel do
         Índice FipeZap de julho/2026. A data de atualização aparece embaixo do painel.</p></details>
-      <details><summary>Por que a poupança aparece sempre por último?<i></i></summary>
-        <p>Porque com a Selic acima de 8,5% ela é travada em 0,5% ao mês (cerca de 6,17% ao ano,
-        mais TR) enquanto o CDI paga bem mais. Ela é isenta de imposto, mas a isenção não cobre
-        essa diferença.</p></details>
-      <details><summary>E o imposto de renda?<i></i></summary>
-        <p>Está em toda simulação: 22,5% até 180 dias, 20% até 360, 17,5% até 720 e 15% acima
-        disso. LCI, LCA e poupança são isentas — o simulador já leva isso em conta.</p></details>
-      <details><summary>Vocês recomendam ação, cripto, fundo?<i></i></summary>
-        <p>O foco é a decisão que 90% das pessoas erram antes disso: dinheiro parado, reserva no
-        lugar errado e imóvel comprado sem conta. Renda variável entra depois, e com aviso de
-        risco — não com promessa de retorno.</p></details>
     </div>
 
     <div class="faq__group" data-fgroup="imoveis">
-      <details><summary>Comprar para alugar é ruim, então?<i></i></summary>
-        <p>Não é ruim — é diferente do que se vende. O aluguel sozinho rende cerca de 6% ao ano
-        bruto; o resultado depende de valorização, do preço que você pagou e de quanto de custo
-        sobra pra você. A calculadora aqui de cima mostra o seu caso.</p></details>
-      <details><summary>Por que imóvel pequeno rende mais?<i></i></summary>
-        <p>Porque o aluguel não cresce na mesma proporção do preço. Pelo FipeZap, 1 quarto rende
-        6,78% ao ano e 4+ quartos, 4,84%. Conforto e rentabilidade andam em direções opostas.</p></details>
-      <details><summary>E financiamento, entra na conta?<i></i></summary>
-        <p>Sim: juros do financiamento, prazo e a comparação entre quitar antes ou investir a
-        diferença fazem parte do módulo de patrimônio.</p></details>
+      <details><summary>Como sei se a diária do meu carro está certa?<i></i></summary>
+        <p>A conta soma cinco custos que a diária tem que cobrir: depreciação, IPVA, seguro,
+        manutenção e os dias em que o carro fica parado. O app devolve a <b>diária mínima</b> para
+        o carro pagar pelo menos o que o dinheiro renderia num CDB — abaixo dela, você está
+        trabalhando de graça.</p></details>
+      <details><summary>Por que a depreciação entra se não sai dinheiro do bolso?<i></i></summary>
+        <p>Porque sai depois, de uma vez, na hora de vender. O carro perde valor enquanto trabalha:
+        ignorar isso faz a operação parecer lucrativa por dois anos e cobrar a conta no terceiro.</p></details>
+      <details><summary>Vale a pena comprar em leilão?<i></i></summary>
+        <p>Depende do custo real, não do lance. Comissão do leiloeiro, pátio, remoção,
+        documentação, reparos e débitos entram na conta; o app mostra o payback em meses e o
+        retorno anual contra o CDI. A regra que usamos: só fecha com payback de até 24 meses e
+        retorno de pelo menos o dobro do CDI líquido.</p></details>
+      <details><summary>Como funcionam os alertas de leilão?<i></i></summary>
+        <p>Você marca o tipo de bem, a região e o teto que pretende pagar; o aviso chega no
+        WhatsApp com o lote, a data da praça e o prazo de visitação. Onde o monitoramento
+        automático ainda não chega, o aviso é feito por nós, na mão — e a gente diz isso com
+        todas as letras.</p></details>
       <details><summary>Como funciona o controle dos meus aluguéis?<i></i></summary>
         <p>Cada contrato tem inquilino, valor, vencimento, índice de reajuste e data de fim. O app
         lança a entrada todo mês, cobra por WhatsApp quando atrasa, calcula o reajuste por IPCA ou
@@ -1259,7 +1302,7 @@
   <footer class="foot">
     <div class="foot__brand">
       <img class="foot__logo" src="assets/img/logo-lockup.png" alt="Reis Factory" />
-      <p class="foot__claim">Gestão de dinheiro com<br />inteligência de investimento.</p>
+      <p class="foot__claim">Quanto cobrar, qual contrato<br />usar e se o negócio fecha.</p>
 
       <div class="foot__seal">
         <img src="assets/img/logo-mark.png" alt="" aria-hidden="true" />
@@ -1268,16 +1311,16 @@
     </div>
 
     <div class="foot__col">
-      <p class="foot__h">Gestão do dinheiro</p>
-      <a href="#rende">Quanto rende hoje</a>
-      <a href="#simulador">Onde investir</a>
+      <p class="foot__h">Dinheiro na rua</p>
+      <a href="#emprestimo">Emprestar dinheiro</a>
+      <a href="#emprestimo">Teto legal de juros</a>
+      <a href="#emprestimo">Contrato de mútuo</a>
+      <a href="#precificar">Precificar o aluguel</a>
       <a href="#cobranca">Cobrança automática</a>
       <a href="#cobranca">Cálculo de juros de atraso</a>
       <a href="#cobranca">Alertas de parcela atrasada</a>
       <a href="#cobranca">Lembrete de bom pagador</a>
-      <a href="#modulos">Salário e renda fixa</a>
-      <a href="#imovel">Casa para alugar</a>
-      <a href="#mitos">Mitos de retorno</a>
+      <a href="#regua">Bom ou mau negócio</a>
     </div>
 
     <div class="foot__col">
@@ -1324,7 +1367,7 @@
     <span id="dock-sub">é o que a conta parada deixa na mesa por ano</span>
   </p>
   <div class="dock__acts">
-    <a class="btn btn--ink" href="#simulador">Ver onde render mais</a>
+    <a class="btn btn--ink" href="#emprestimo">Ver quanto rende emprestado</a>
     <a class="btn btn--lime" href="#contato">Falar com a gente</a>
   </div>
 </div>
